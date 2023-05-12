@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Color {
+  BROWN
+  LIGHTBLUE
+  PINK
+  ORANGE
+  RED
+  YELLOW
+  GREEN
+  BLUE
+}
+
+enum Cardtype {
+  CHANCE
+  COMMUNITYCHEST
+}
+
+// NOTE: Mortgages are half the price of any buyable value
+
+model Property {
+  id    Int    @id @unique // ID corresponds to the spot on the board
+  name  String @unique
+  color Color // This could be an Enum?
+  price Int
+  rent  Int[]
+}
+
+model Houses {
+  color Color @unique
+  price Int
+}
+
+model Railroad {
+  id    Int    @id @unique // Cannot be Sequential
+  name  String @unique
+  price Int
+  rent  Int[]
+}
+
+model Utilities {
+  id   Int    @id @unique
+  name String @unique
+  rent Int[]
+}
+
+model Special {
+  id          Int    @id @unique
+  name        String @unique
+  description String
+}
+
+model Card {
+  type        Cardtype
+  name        String   @unique
+  description String   @unique
+}
