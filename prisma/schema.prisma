@@ -60,8 +60,13 @@ model Special {
   description String
 }
 
+model Drawable {
+  id   Int      @id @unique
+  type Cardtype
+}
+
 model Card {
+  id          Int      @id @default(autoincrement())
   type        Cardtype
-  name        String   @unique
   description String   @unique
 }
