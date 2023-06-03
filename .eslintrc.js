@@ -5,8 +5,7 @@ module.exports = {
     node: true
   },
   extends: [
-    'plugin:vue/vue3-essential',
-    'unocss',
+    'plugin:vue/vue3-strongly-reccomended',
     'standard-with-typescript'
   ],
   overrides: [
