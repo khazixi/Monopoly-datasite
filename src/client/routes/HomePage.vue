@@ -9,7 +9,10 @@ import CardTable from '../components/CardTable.vue'
   <Suspense>
     <!-- INFO: CardViewer deals with querying data -->
     <CardViewer />
-    <!-- <CardTable /> -->
+  </Suspense>
+
+  <Suspense>
+    <CardTable />
   </Suspense>
 
   <!-- <h2 class="text-2xl text-center"> Browse all the properties</h2> -->

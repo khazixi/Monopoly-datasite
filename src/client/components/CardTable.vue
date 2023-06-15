@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { useArrayFilter, useFetch } from '@vueuse/core'
-import { APIResponse } from '../lib/util'
 import { Card } from '@prisma/client'
 import { ref } from 'vue';
-const { data, isFetching, error } = useFetch<Card[]>('/api/cards').get()
-const deck = data.value.data
+const { data, isFetching, error } = await useFetch('/api/cards').get().json<Card[]>()
+const deck = data.value
 const page = ref(1)
 const tableSize = ref(5)
 
 
 // WARNING: Math for this component may break
 function nextPage() {
-  if ((page.value + 1) <= Math.floor(deck.length / tableSize.value)) page.value++
+  if ((page.value) <= Math.floor(deck.length / tableSize.value)) page.value++
 }
 
 function prevPage() {
@@ -20,29 +19,35 @@ function prevPage() {
 }
 
 function tableFilter(index: number) {
-  let start = (1 - page.value) * tableSize.value - 1
+  let start = ((page.value - 1) * tableSize.value)
   let end = (page.value * tableSize.value) - 1
+  console.log(`start: ${start}, end: ${end}`)
   return start <= index && index <= end
 }
 
-const talebleData = useArrayFilter(deck, (_, i) => tableFilter(i))
+const talebleData = useArrayFilter(deck, (_, i) => {
+  console.log(tableFilter(i))
+  return tableFilter(i)
+})
 </script>
 
 <template>
   <!-- TODO: Add an input to filter results -->
   <p v-if="isFetching">loading</p>
   <p v-else-if="error">error</p>
-  <table v-else>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-    <tr v-for="card in talebleData">
-      <td>{{ card.type }}</td>
-      <td>{{ card.description }}</td>
-    </tr>
-  </table>
+  <section v-else>
+    <table class="border-solid border-black border-2">
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr v-for="(card, index) in talebleData" :class="[index % 2 === 0 ? 'bg-gray-200' : 'bg-gray-400']">
+        <td>{{ card.type }}</td>
+        <td>{{ card.description }}</td>
+      </tr>
+    </table>
 
-  <button @click="prevPage">Prev</button>
-  <button @click="nextPage">Next</button>
+    <button @click="prevPage">Prev</button>
+    <button @click="nextPage">Next</button>
+  </section>
 </template>

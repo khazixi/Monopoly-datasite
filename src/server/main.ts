@@ -206,7 +206,7 @@ app.get('/api/cards', async (req, res) => {
     let cards
     if (CardCache.size != 33) {
       cards = await prisma.card.findMany()
-      res.status(200).json({ status: 200, data: cards })
+      res.status(200).json(cards)
       for (let i = 0; i < cards.length; i++) {
         CardCache.set(i, cards[i])
       }
