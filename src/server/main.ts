@@ -3,8 +3,8 @@ import { z } from 'zod'
 import express from "express";
 import ViteExpress from "vite-express";
 import { init } from './dbInit'
-import { ColorCache, IDCache, PropertyCache, RailroadCache, SpotCache, UtilityCache } from "./cache";
-import { Colors } from "../lib/schema";
+import { CardCache, ColorCache, IDCache, PropertyCache, RailroadCache, SpotCache, UtilityCache } from "./cache";
+import { card, Colors } from "../lib/schema";
 
 const app = express();
 const prisma = new PrismaClient({
@@ -42,9 +42,9 @@ app.get("/api/property", async (req, res) => {
       data = out
     }
     if (data == null) throw "Null Property";
-    res.json({ status: 200, data: data })
+    res.status(200).json(data)
   } catch {
-    res.status(500).json({ status: 500, data: null })
+    res.status(500).json(null)
   }
 });
 
@@ -67,9 +67,9 @@ app.get("/api/railroad", async (req, res) => {
       data = out
     }
     if (data == null) throw "Null Property";
-    res.json({ status: 200, data: data })
+    res.status(200).json(data)
   } catch {
-    res.status(500).json({ status: 500, data: null })
+    res.status(500).json(null)
   }
 });
 app.get("/api/utility", async (req, res) => {
@@ -90,9 +90,9 @@ app.get("/api/utility", async (req, res) => {
       data = out
     }
     if (data == null) throw "Null Property";
-    res.json({ status: 200, data: data })
+    res.status(200).json(data)
   } catch {
-    res.status(500).json({ status: 500, data: null })
+    res.status(500).json(null)
   }
 });
 
@@ -114,9 +114,9 @@ app.get("/api/color/:color", async (req, res) => {
       data = out
     }
     if (data == null) throw "Null Property"
-    res.json({ status: 200, data: data })
+    res.status(200).json(data)
   } catch {
-    res.status(500).json({ status: 500, data: null })
+    res.status(500).json(null)
   }
 })
 
@@ -164,16 +164,13 @@ app.get("/api/spot/:id", async (req, res) => {
     } else {
       data = out
     }
-    console.log(IDCache)
     if (!data) {
-      res.status(500).json({ status: 500, data: null })
+      res.status(500).json(null)
       return
     }
-    res.json({ status: 200, data: data })
+    res.status(200).json(data)
   } catch (err) {
-    console.log('API Errored out')
-    console.log(err)
-    res.status(500).json({ status: 500, data: null })
+    res.status(500).json(null)
   }
 })
 
@@ -193,17 +190,57 @@ app.get('/api/spots', async (req, res) => {
           if (b.id > a.id) return -1
           return 0
         })
-
+      res.status(200).json(spots)
       SpotCache.set(0, spots)
     } else {
       spots = SpotCache.get(0)
+      res.status(200).json(spots)
     }
-    res.json({ status: 200, data: spots })
   } catch (err) {
-    res.status(500).json({ status: 500, data: null })
+    res.status(500).json(null)
+  }
+})
+
+app.get('/api/cards', async (req, res) => {
+  try {
+    let cards
+    if (CardCache.size != 33) {
+      cards = await prisma.card.findMany()
+      res.status(200).json({ status: 200, data: cards })
+      for (let i = 0; i < cards.length; i++) {
+        CardCache.set(i, cards[i])
+      }
+    } else {
+      cards = Array.from(CardCache.values())
+      res.status(200).json(card)
+    }
+  } catch {
+    res.status(500).json(null)
+  }
+})
+
+app.get('/api/card/:id', async (req, res) => {
+  try {
+    let card
+    const id = z.number().gte(0).lt(34).parse(req.params.id)
+    if (!CardCache.get(id)) {
+      card = await prisma.card.findFirst({
+        where: {
+          id: id
+        }
+      })
+      if (card) CardCache.set(id, card)
+      res.status(200).json(card)
+    } else {
+      card = CardCache.get(id)
+      res.status(200).json(card)
+    }
+  } catch {
+    res.status(500).json(null)
   }
 })
 
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000...")
 );
+

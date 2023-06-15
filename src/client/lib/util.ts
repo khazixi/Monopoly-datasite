@@ -1,16 +1,11 @@
 import { Color, Drawable, Property, Railroad, Special, Utilities } from '@prisma/client'
-import { AfterFetchContext, createFetch, UseFetchReturn } from '@vueuse/core'
-import { DrawableSchema, PropertySchema, RailroadSchema, SpecialSchema, SpotSchema, UtilitySchema } from '../../lib/schema'
-
 export type Spot = Property | Railroad | Special | Utilities | Drawable
 
-export function generateTailwindBackground(spot: Spot): string {
+export function generateTailwindBackground(spot: Spot | null): string {
+  if (!spot) return 'bg-white'
   if (getType(spot.id) !== 'Property') return 'bg-black'
 
-
-  const property = PropertySchema.parse(spot)
-
-  switch (property.color) {
+  switch ((spot as Property).color) {
     case 'BROWN': return 'bg-amber-900'
     case 'LIGHTBLUE': return 'bg-sky-300'
     case 'PINK': return 'bg-pink-300'
@@ -23,7 +18,8 @@ export function generateTailwindBackground(spot: Spot): string {
   }
 }
 
-export function generateTailwindForeground(spot: Spot): string {
+export function generateTailwindForeground(spot: Spot | null): string {
+  if (!spot) return 'text-red-500'
   if (getType(spot.id) !== 'Property') return 'text-white'
   return 'text-black'
 }
@@ -81,71 +77,16 @@ export function createUtilitiesDescription(utility: Utilities) {
   `
 }
 
-// TODO: Deal with the unwraps which result from the API returns
-export async function fetchById(id: number): Promise<Spot> {
-  // TODO: Break this into individual client Schemas
-  return fetch(`/api/spot/${id}`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-    .then(resp => resp.json())
-    .then(json => SpotSchema.parse(json.data))
-}
-
-export async function fetchByColor(color: string): Promise<Property[] | string> {
-  return fetch(`/api/color/${color}`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-    .then(resp => resp.json())
-    .then(json => PropertySchema.array().parse(json.data))
-}
-
-export async function fetchByRailroad(name: string): Promise<Railroad | string> {
-  return fetch(`/api/railroad?name=${name}`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-    .then(resp => resp.json())
-    .then(json => RailroadSchema.parse(json.data))
-}
-
-export async function fetchByUtility(name: string): Promise<Utilities | string> {
-  return fetch(`/api/utility?name=${name}`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-    .then(resp => resp.json())
-    .then(json => UtilitySchema.parse(json.data))
-}
-
-
-export async function FetchBySpots(): Promise<Spot[] | string> {
-  return fetch(`/api/spots`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-    .then(resp => resp.json())
-    .then(json => SpotSchema.array().parse(json.data))
-}
-
 export function getType(index: number) {
-  const idx = index % 40
-  if ([0, 4, 10, 20, 30, 38].includes(idx)) return 'Special'
-  if ([12, 28].includes(idx)) return 'Utility'
-  else if ([5, 15, 25, 35].includes(idx)) return 'Railroad'
-  else if ([2, 7, 17, 22, 33, 36].includes(idx)) return 'Drawable'
-  else return 'Property'
+  if ([0, 4, 10, 20, 30, 38].includes(index % 40)) {
+    return 'Special'
+  } else if ([12, 28].includes(index % 40)) {
+    return 'Utility'
+  } else if ([5, 15, 25, 35].includes(index % 40)) {
+    return 'Railroad'
+  } else if ([2, 7, 17, 22, 33, 36].includes(index % 40)) {
+    return 'Drawable'
+  } else return 'Property'
 }
 
 // HACK: Using Zod Validation as a way to validate my way out of typescript unions
@@ -154,20 +95,15 @@ export function getType(index: number) {
 export function getSpotName(spot: Spot): string {
   switch (getType(spot.id)) {
     case 'Special':
-      spot = SpecialSchema.parse(spot)
-      return spot.name
+      return (spot as Special).name
     case 'Utility':
-      spot = UtilitySchema.parse(spot)
-      return spot.name
+      return (spot as Utilities).name
     case 'Railroad':
-      spot = RailroadSchema.parse(spot)
-      return spot.name
+      return (spot as Railroad).name
     case 'Drawable':
-      spot = DrawableSchema.parse(spot)
-      return (spot.type === 'CHANCE') ? 'Chance' : 'Community Chest'
+      return ((spot as Drawable).type === 'CHANCE') ? 'Chance' : 'Community Chest'
     case 'Property':
-      spot = PropertySchema.parse(spot)
-      return spot.name
+      return (spot as Property).name
   }
 }
 
@@ -175,20 +111,14 @@ export function getSpotName(spot: Spot): string {
 export function getDescription(spot: Spot) {
   switch (getType(spot.id)) {
     case 'Special':
-      spot = SpecialSchema.parse(spot)
-      return spot.description
+      return (spot as Special).description
     case 'Utility':
-      spot = UtilitySchema.parse(spot)
-      return createUtilitiesDescription(spot)
+      return createUtilitiesDescription(spot as Utilities)
     case 'Railroad':
-      spot = RailroadSchema.parse(spot)
-      return createRailroadDescription(spot)
+      return createRailroadDescription(spot as Railroad)
     case 'Drawable':
-      spot = DrawableSchema.parse(spot)
-      return spot.type
+      return (spot as Drawable).type
     case 'Property':
-      spot = PropertySchema.parse(spot)
-      // HACK: Gets around Property Schema returning a union of 'Property | Railroad | Utilities'
       return createPropertyDescription(spot as Property)
   }
 }

@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { getType, getHousePrice } from '../lib/util'
 import type { Spot } from '../lib/util'
 import type { Drawable, Property, Railroad, Special, Utilities } from '@prisma/client'
 const props = defineProps<{ spot: Spot }>()
 
-const spotType = computed(() => getType(props.spot.id))
+const spotType = computed(() => {
+  console.log(props.spot)
+  console.log(typeof props.spot)
+  console.log(props.spot.id)
+  return getType(props.spot.id)
+})
 </script>
 
 <template>
@@ -43,7 +48,10 @@ const spotType = computed(() => getType(props.spot.id))
   <p v-else-if="spotType === 'Special'"> {{ (spot as Special).description }} </p>
   <section v-else-if="spotType === 'Drawable'">
     <p>
-      {{ spot }}
+      {{ (spot as Drawable).type }}
     </p>
+  </section>
+  <section v-else>
+    <p> <b> Error! </b> </p>
   </section>
 </template>

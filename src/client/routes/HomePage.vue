@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CardViewer from '../components/CardViewer.vue'
+import CardTable from '../components/CardTable.vue'
 </script>
 
 <template>
@@ -8,6 +9,7 @@ import CardViewer from '../components/CardViewer.vue'
   <Suspense>
     <!-- INFO: CardViewer deals with querying data -->
     <CardViewer />
+    <!-- <CardTable /> -->
   </Suspense>
 
   <!-- <h2 class="text-2xl text-center"> Browse all the properties</h2> -->
