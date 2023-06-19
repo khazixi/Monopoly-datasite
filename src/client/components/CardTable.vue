@@ -10,6 +10,7 @@ const tableSize = ref(5)
 
 // WARNING: Math for this component may break
 function nextPage() {
+if (!deck) return
   if ((page.value) <= Math.floor(deck.length / tableSize.value)) page.value++
 }
 
@@ -26,7 +27,6 @@ function tableFilter(index: number) {
 }
 
 const talebleData = useArrayFilter(deck, (_, i) => {
-  console.log(tableFilter(i))
   return tableFilter(i)
 })
 </script>

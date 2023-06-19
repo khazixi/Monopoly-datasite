@@ -240,6 +240,17 @@ app.get('/api/card/:id', async (req, res) => {
   }
 })
 
+app.get('/api/names', async (req, res) => {
+  try {
+    const properties = await prisma.property.findMany({ select: { name: true } })
+    const railroads = await prisma.railroad.findMany({ select: { name: true } })
+    const utilities = await prisma.utilities.findMany({ select: { name: true } })
+    res.status(200).json([...properties, ...railroads, ...utilities])
+  } catch {
+    res.status(500).json(null)
+  }
+})
+
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000...")
 );
