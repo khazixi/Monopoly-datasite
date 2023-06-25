@@ -44,7 +44,7 @@ export const usePlayers = defineStore('players', () => {
   }
 
   function removePlayer(idx: number) {
-    players.splice(idx)
+    if (players.length > 2) players.splice(idx)
   }
 
   function changeName(idx: number, newName: string) {

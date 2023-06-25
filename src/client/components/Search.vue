@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import { useFetch } from '@vueuse/core';
 import { computed, ref } from 'vue';
+import { useData } from '../stores/properties';
 import { Housable } from '../lib/storage';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps<{ houses: Housable[] }>()
 const text = ref('')
-const { data } = await useFetch('/api/names').get().json<Housable[]>()
+
+const store = useData()
+const { ownables } = storeToRefs(store)
 
 const searchItems = computed<Housable[]>(() => {
-  if (!data.value) return []
+  if (!ownables) return []
   if (text.value === '') return []
 
   let matched = 0
 
-  return data.value.filter((val) => {
+  return ownables.value.filter((val) => {
     if (props.houses && props.houses.findIndex((v) => v.name === val.name) !== -1) return false
     if (val.name.toLowerCase().includes(text.value.toLowerCase()) && matched < 5) {
       matched++

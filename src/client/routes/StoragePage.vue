@@ -35,7 +35,7 @@ function houseDecrease(idx: number) {
   <p> Selected Property: <b> {{ selectedProperty.name }}</b></p>
 
   <button class="bg-black text-white p-1 rounded-lg my-2 mx-1" v-if="selectedProperty.name !== ''"
-    @click="deactivateProperty(selectedProperty); players.addProperty(selectedPlayer, selectedProperty)"> Add Property to
+    @click="deactivateProperty(selectedProperty); players.addProperty(selectedPlayer, selectedProperty); selectedProperty = {name: ''}"> Add Property to
     {{ players.players[selectedPlayer].name }} </button>
   <br>
 
