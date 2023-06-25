@@ -21,7 +21,7 @@ prisma.$on('info', e => console.log(e))
 
 // INFO: Creates all the Database boilerplate
 
-init(prisma)
+// init(prisma)
 
 // NOTE: '/api/property', '/api/railroad', and '/api/utility' are duplicated
 // due to restrictions around primsa typing, the ideal would be to use '/api/:spot'
@@ -240,9 +240,18 @@ app.get('/api/card/:id', async (req, res) => {
   }
 })
 
+type Housable = {
+  name: string
+  houses?: number
+}
+
 app.get('/api/names', async (req, res) => {
   try {
-    const properties = await prisma.property.findMany({ select: { name: true } })
+    const properties: Housable[] = await prisma.property.findMany({ select: { name: true } })
+    properties.forEach((_, i, obj) => {
+      obj[i]['houses'] = 0
+      // ...
+    })
     const railroads = await prisma.railroad.findMany({ select: { name: true } })
     const utilities = await prisma.utilities.findMany({ select: { name: true } })
     res.status(200).json([...properties, ...railroads, ...utilities])

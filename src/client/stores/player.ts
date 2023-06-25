@@ -1,6 +1,6 @@
-import { Housable, Ownable, Person } from '../lib/storage'
+import { Housable, Person } from '../lib/storage'
 import { defineStore } from 'pinia'
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { Color } from '@prisma/client'
 
 type ColorData = {
@@ -17,6 +17,7 @@ export type OwnableData = {
 
 
 export const usePlayers = defineStore('players', () => {
+  const selected = ref(0)
   const players = reactive<Person[]>(
     [
       { name: "Player 1", owned: [], money: 1500 },
@@ -25,6 +26,13 @@ export const usePlayers = defineStore('players', () => {
   )
 
   const playerCount = computed(() => players.length)
+  const owned = computed(() => {
+    let owned: Housable[] = []
+    players.forEach((v) => {
+      owned.push(...v.owned)
+    })
+    return owned
+  })
 
   function addNewPlayer(name?: string) {
     if (name === undefined) {
@@ -48,17 +56,18 @@ export const usePlayers = defineStore('players', () => {
     players.push(player)
   }
 
-  function addProperty(idx: number, props: Ownable | Housable) {
+  function addProperty(idx: number, props: Housable) {
     players[idx].owned.push(props)
   }
 
-  function removeProperty(idx: number, props: Ownable | Housable) {
+  function removeProperty(idx: number, props: Housable) {
     players[idx].owned.filter((val) => { val.name !== props.name })
   }
 
   // TODO: Make the set function a callback?
   return {
     players,
+    owned,
     playerCount,
     addNewPlayer,
     removePlayer,

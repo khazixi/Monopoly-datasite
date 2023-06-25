@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import { useArrayFilter, useFetch } from '@vueuse/core'
-import { Card } from '@prisma/client'
+import { useArrayFilter } from '@vueuse/core'
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-const { data, isFetching, error } = await useFetch('/api/cards').get().json<Card[]>()
-const deck = data.value
+import { useData } from '../stores/properties';
+
+const store = useData()
+const { cards: deck } = storeToRefs(store)
 const page = ref(1)
 const tableSize = ref(5)
 
 
 // WARNING: Math for this component may break
 function nextPage() {
-if (!deck) return
-  if ((page.value) <= Math.floor(deck.length / tableSize.value)) page.value++
+if (!deck.value) return
+  if ((page.value) <= Math.floor(deck.value.length / tableSize.value) - 1) page.value++
 }
 
 function prevPage() {
-  if (page.value - 1 < 0) return
+  if (page.value - 1 < 1) return
   page.value--
 }
 
@@ -33,8 +35,7 @@ const talebleData = useArrayFilter(deck, (_, i) => {
 
 <template>
   <!-- TODO: Add an input to filter results -->
-  <p v-if="isFetching">loading</p>
-  <p v-else-if="error">error</p>
+  <p v-if="store.isEmptyCard">loading</p>
   <section v-else>
     <table class="border-solid border-black border-2">
       <tr>
