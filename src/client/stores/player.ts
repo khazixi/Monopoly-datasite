@@ -36,15 +36,15 @@ export const usePlayers = defineStore('players', () => {
 
   function addNewPlayer(name?: string) {
     if (name === undefined) {
-      players.push({ name: `Player ${playerCount.value + 1}`, owned: [], money: 1500 })
+      if (players.length < 8) players.push({ name: `Player ${playerCount.value + 1}`, owned: [], money: 1500 })
       return
     }
     if (players.findIndex((val) => val.name === name) !== -1) return
-    players.push({ name: name, owned: [], money: 1500 })
+      if (players.length < 8) players.push({ name: name, owned: [], money: 1500 })
   }
 
   function removePlayer(idx: number) {
-    if (players.length > 2) players.splice(idx)
+    if (players.length > 2) players.splice(idx, 1)
   }
 
   function changeName(idx: number, newName: string) {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { usePlayers } from '../stores/player'
 import { Housable } from '../lib/storage';
 import Search from '../components/Search.vue'
@@ -35,7 +35,8 @@ function houseDecrease(idx: number) {
   <p> Selected Property: <b> {{ selectedProperty.name }}</b></p>
 
   <button class="bg-black text-white p-1 rounded-lg my-2 mx-1" v-if="selectedProperty.name !== ''"
-    @click="deactivateProperty(selectedProperty); players.addProperty(selectedPlayer, selectedProperty); selectedProperty = {name: ''}"> Add Property to
+    @click="deactivateProperty(selectedProperty); players.addProperty(selectedPlayer, selectedProperty); selectedProperty = { name: '' }">
+    Add Property to
     {{ players.players[selectedPlayer].name }} </button>
   <br>
 
@@ -43,12 +44,7 @@ function houseDecrease(idx: number) {
     Add Player
   </button>
 
-  <Suspense>
-    <Search @selected="(n) => selectedProperty = n" :houses="players.owned" />
-    <template #fallback>
-      <input disabled placeholder="Disabled" />
-    </template>
-  </Suspense>
+  <Search @selected="(n) => selectedProperty = n" :houses="players.owned" />
 
   <!-- TODO: Add a way to simplify the UI  -->
   <article v-for="(player, idx) in players.players" class="border-2 border-solid border-black p-4 my-4">
@@ -65,9 +61,11 @@ function houseDecrease(idx: number) {
           <li v-for="owned in player.owned" class="px-2">
             <h2 class="inline"> {{ owned.name }}: </h2>
             <div v-if="owned.houses !== undefined" class="inline">
-              <button @click="(owned.houses > 0) ? --owned.houses : owned.houses" class="inline mx-2 border-black border-2 border-solid px-2 rounded-lg">-</button>
+              <button @click="(owned.houses > 0) ? --owned.houses : owned.houses"
+                class="inline mx-2 border-black border-2 border-solid px-2 rounded-lg">-</button>
               <p class="inline"> {{ owned.houses }}</p>
-              <button @click="(owned.houses < 5) ? ++owned.houses : owned.houses" class="inline mx-2 border-black border-2 border-solid px-2 rounded-lg">+</button>
+              <button @click="(owned.houses < 5) ? ++owned.houses : owned.houses"
+                class="inline mx-2 border-black border-2 border-solid px-2 rounded-lg">+</button>
             </div>
           </li>
         </ul>
@@ -82,7 +80,8 @@ function houseDecrease(idx: number) {
       </form>
     </section>
 
-    <button class="bg-black text-white p-1 rounded-lg my-2 mx-1" @click="players.removePlayer(idx)"> Remove Player </button>
+    <button class="bg-black text-white p-1 rounded-lg my-2 mx-1" @click="players.removePlayer(idx)"> Remove Player
+    </button>
 
   </article>
 </template>
