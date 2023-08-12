@@ -107,16 +107,14 @@ model Owned {
 model UserData {
   id       String @id @default(cuid())
   username String @unique
-  user     User   @relation(fields: [username], references: [id])
   games    Game[]
 }
 
 model User {
   id           String    @id @unique
-  username     String    @unique
   auth_session Session[]
-  auth_key     Key[]
-  games        UserData?
+  key          Key[]
+  username     String
 }
 
 model Session {
