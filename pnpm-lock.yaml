@@ -58,6 +58,9 @@ devDependencies:
   prisma:
     specifier: ^5.1.1
     version: 5.1.1
+  tsx:
+    specifier: ^3.12.7
+    version: 3.12.7
 
 packages:
 

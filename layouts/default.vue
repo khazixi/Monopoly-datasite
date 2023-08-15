@@ -1,6 +1,6 @@
 <template>
   <Nav />
-  <main>
+  <main class="h-screen bg-zinc-200">
     <slot />
   </main>
 </template>

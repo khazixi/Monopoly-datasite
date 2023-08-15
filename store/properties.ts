@@ -20,11 +20,11 @@ export const useData = defineStore("properties", () => {
     const arr: Housable[] = [];
     if (spots.value.length === 0) return arr;
     spots.value.forEach((v) => {
-      const type = getType(v);
+      const type = getType(v.id);
       if (type === "Utility" || type === "Railroad") {
-        arr.push({ name: getName(v), id: v.id });
+        arr.push({ name: getName(v) ?? 'name', id: v.id });
       } else if (type === "Property") {
-        arr.push({ name: getName(v), houses: 0, id: v.id });
+        arr.push({ name: getName(v) ?? 'name', houses: 0, id: v.id });
       }
     });
     return arr;
@@ -52,6 +52,7 @@ export const useData = defineStore("properties", () => {
     spots,
     cards,
     ownables,
+    fetchData,
     spotIndex,
     cardIndex,
     isEmptyCard,

@@ -23,7 +23,8 @@
     "eslint-plugin-prettier": "^5.0.0",
     "nuxt": "^3.6.5",
     "prettier": "^3.0.1",
-    "prisma": "^5.1.1"
+    "prisma": "^5.1.1",
+    "tsx": "^3.12.7"
   },
   "dependencies": {
     "@lucia-auth/adapter-prisma": "^3.0.1",

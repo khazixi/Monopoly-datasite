@@ -9,7 +9,8 @@ export default defineEventHandler(async (event) => {
       status: 401,
     });
   }
+  await auth.deleteDeadUserSessions(session.user.userId)
   await auth.invalidateSession(session.sessionId);
   authRequest.setSession(session);
-  return sendRedirect(event, "/login");
+  return sendRedirect(event, "/login", 302);
 });

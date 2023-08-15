@@ -8,6 +8,7 @@ const gameName = ref("");
 const selectedProperty = ref<Housable>({ name: "", id: -1 });
 const inactiveProperties = ref<Housable[]>([]);
 
+
 function deactivateProperty(property: Housable) {
   inactiveProperties.value.push(property);
 }
@@ -17,37 +18,48 @@ function handleSubmit() {
   players.addProperty(players.selected, selectedProperty.value);
   selectedProperty.value = { name: "", id: -1 };
 }
+
+function transformGame() {
+  return {
+    name: gameName.value,
+    players: players.players
+  }
+}
 </script>
 
 <!-- TODO: Redo the entire property mechanism -->
 <template>
-  <section>
-    <form>
+  <section class="bg-zinc-200 h-max flex flex-col">
+    <form class="bg-zinc-300 m-2 border-slate-600 border-2 p-4">
       <label>Game Name: </label>
       <input v-model="gameName" class="border-black border-2 border-solid rounded-lg px-2 my-4" type="text"
         placeholder="Fill in This Game">
     </form>
-    <p>
-      Selected Player: <b> {{ players.selectedPlayer.name }} </b>
-    </p>
-    <p>
-      Selected Property: <b> {{ selectedProperty.name }}</b>
-    </p>
 
-    <button v-if="selectedProperty.name !== ''" class="bg-black text-white p-1 rounded-lg my-2 mx-1"
-      @click="handleSubmit()">
-      Add Property to {{ players.selectedPlayer.name }}
-    </button>
-    <br />
-
-    <button class="bg-black text-white p-1 rounded-lg my-2 mx-1" @click="players.addNewPlayer()">
+    <button class="bg-slate-700 text-white p-4 rounded-lg my-2 mx-1" @click="players.addNewPlayer()">
       Add Player
+    </button>
+
+    <div class="flex flex-row">
+      <button class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow"
+        @click="console.log(JSON.stringify(transformGame()))">
+        Download
+      </button>
+      <button class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow">
+        Save to Cloud
+      </button>
+    </div>
+
+
+    <button v-if="selectedProperty.name !== ''" class="bg-slate-700 text-white p-4 rounded-lg my-2 mx-1"
+      @click="handleSubmit()">
+      Add {{ selectedProperty.name }} to {{ players.selectedPlayer.name }}
     </button>
 
     <Search :houses="players.owned" @selected="(n) => (selectedProperty = n)" />
 
     <!-- BUG: Should not render if no player is selected -->
-    <section class="flex">
+    <section class="flex flex-col sm:flex-row">
       <Editor class="basis-2/3" :player="players.selectedPlayer" :index="players.selected"
         @update-player="(p) => players.updatePlayer(players.selected, p)"
         @delete-spot="(d) => players.removeProperty(players.selected, d)" />

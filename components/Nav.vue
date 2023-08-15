@@ -3,17 +3,18 @@ const user = useUser()
 
 async function handleClick() {
   await $fetch('/api/logout', { method: 'POST' })
+  await navigateTo('/login')
 }
 
 </script>
 
 <template>
-  <nav class="bg-black py-4">
-    <NuxtLink class="text-white p-2 mx-2 bg-green-600 rounded-lg" to="/">Home (Under Construction)</NuxtLink>
-    <NuxtLink class="text-white p-2 mx-2 bg-green-600 rounded-lg" to="/store">Saver (Under Construction)</NuxtLink>
-    <NuxtLink class="text-white p-2 mx-2 bg-green-600 rounded-lg" to="/about">About (Under Construction)</NuxtLink>
+  <nav class="bg-zinc-800 py-4 flex flex-row ">
+    <NuxtLink class="text-white p-4 bg-gray-600 rounded-md mx-2" to="/">Home </NuxtLink>
+    <NuxtLink class="text-white p-4 bg-gray-600 rounded-md mx-2" to="/store">Saver </NuxtLink>
+    <NuxtLink class="text-white p-4 bg-gray-600 rounded-md mx-2" to="/about">About </NuxtLink>
 
-    <button v-if="user" @click="handleClick" class="text-white p-2 mx-2 bg-green-600 rounded-lg"> Log Out</button>
-    <NuxtLink v-else class="text-white p-2 mx-2 bg-green-600 rounded-lg" to="/signup"> Sign Up</NuxtLink>
+    <button v-if="user" @click="handleClick" class="text-white ml-auto p-2 bg-blue-600 rounded-md mr-2"> Log Out</button>
+    <NuxtLink v-else class="text-white ml-auto p-4 bg-blue-600 rounded-md mr-2" to="/signup"> Sign Up</NuxtLink>
   </nav>
 </template>

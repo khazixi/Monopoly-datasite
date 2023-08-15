@@ -34,21 +34,22 @@ const searchItems = computed<Housable[]>(() => {
 </script>
 
 <template>
-  <div class="px-2">
+  <div class="px-2 sm:w-max">
     <input
       v-model="text"
-      class="border-black border-2 border-solid rounded-t-lg px-2 w-60"
+      class="border-slate-800 bg-slate-300 p-2 border-2 border-solid rounded-t-sm px-2 w-full"
+      :class="(!text.length) ? 'rounded-b-sm' : ''"
       type="search"
       placeholder="Enter property name"
     >
     <ul
       v-if="text.length"
-      class="list-none border-2 border-solid border-black w-60 rounded-b-lg"
+      class="list-none border-x-2 border-b-2 border-solid border-black rounded-b-lg"
     >
       <li
         v-for="searchItem in searchItems"
         :key="searchItem.name"
-        class="hover:bg-gray-500"
+        class="hover:bg-gray-500 p-2"
         @click="emits('selected', searchItem)"
       >
         {{ searchItem.name }}

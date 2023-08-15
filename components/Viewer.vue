@@ -9,10 +9,9 @@ const emits = defineEmits<{
 </script>
 
 <template>
-  <form @submit.prevent class="border-solid border-2 rounded border-black m-2">
-    <label>{{ player.name }}</label>
-    <br>
-    <button class="bg-black text-white p-2 rounded-md m-2" @click="emits('selectPlayer', index)">Select</button>
-    <button class="bg-black text-white p-2 rounded-md m-2" @click="emits('deletePlayer', index)">Remove</button>
+  <form @submit.prevent class="border-solid border-2 rounded border-black m-2 flex flex-col">
+    <label class="p-4 text-center">{{ player.name }}</label>
+    <button class="bg-gray-600 text-white p-2" @click="emits('selectPlayer', index)">Select</button>
+    <button class="bg-zinc-300 text-white p-2 rounded-b-sm" @click="emits('deletePlayer', index)">Remove</button>
   </form>
 </template>

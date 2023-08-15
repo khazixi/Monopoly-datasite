@@ -29,21 +29,31 @@ export type SpotIndices =
   | DrawableIndices
   | PropertyIndices;
 
-export function getType(spot: Spot) {
-  const index = spot.id;
-  if ([0, 4, 10, 20, 30, 38].includes(index % 40)) {
-    return "Special";
-  } else if ([12, 28].includes(index % 40)) {
-    return "Utility";
-  } else if ([5, 15, 25, 35].includes(index % 40)) {
-    return "Railroad";
-  } else if ([2, 7, 17, 22, 33, 36].includes(index % 40)) {
-    return "Drawable";
-  } else return "Property";
+function localFind(a: ReadonlyArray<number>, b: number) {
+  return a.includes(b)
+}
+
+export function getHousePrice(index: number) {
+  if (checkIndices(index, [0,1,2,3,4], propertyIndices))
+    return 50
+  else if (checkIndices(index, [5,6,7,8,9,10], propertyIndices))
+    return 100
+  else if (checkIndices(index, [11,12,13,14,15,16], propertyIndices))
+    return 150
+  else if (checkIndices(index, [17,18,19,20,21], propertyIndices))
+    return 200
+}
+
+export function getType(spotIndex: number) {
+  if (localFind(specialIndices, spotIndex)) return 'Special'
+  else if (localFind(utilityIndices, spotIndex)) return 'Utility'
+  else if (localFind(railroadIndices, spotIndex)) return 'Railroad'
+  else if (localFind(drawableIndices, spotIndex)) return 'Drawable'
+  else if (localFind(propertyIndices, spotIndex)) return 'Property'
 }
 
 export function getName(spot: Spot) {
-  switch (getType(spot)) {
+  switch (getType(spot.id)) {
     case "Special":
       return (spot as Special).name;
     case "Utility":
@@ -66,35 +76,35 @@ function checkIndices(v: number, i: number[], a: ReadonlyArray<number>) {
   return false
 }
 
-export function bgBySpot(spot: Housable) {
-  if (0 <= spot.id && spot.id <= 39) {
-    if (checkIndices(spot.id, [0, 1], propertyIndices))
+export function bgBySpot(spot: number) {
+  if (0 <= spot && spot <= 39) {
+    if (checkIndices(spot, [0, 1], propertyIndices))
       return 'bg-purple-500'
-    else if (checkIndices(spot.id, [2, 3, 4], propertyIndices))
+    else if (checkIndices(spot, [2, 3, 4], propertyIndices))
       return 'bg-sky-400'
-    else if (checkIndices(spot.id, [5, 6, 7], propertyIndices))
+    else if (checkIndices(spot, [5, 6, 7], propertyIndices))
       return 'bg-fuchsia-400'
-    else if (checkIndices(spot.id, [8, 9, 10], propertyIndices))
+    else if (checkIndices(spot, [8, 9, 10], propertyIndices))
       return 'bg-orange-400'
-    else if (checkIndices(spot.id, [11, 12, 13], propertyIndices))
+    else if (checkIndices(spot, [11, 12, 13], propertyIndices))
       return 'bg-red-400'
-    else if (checkIndices(spot.id, [14, 15, 16], propertyIndices))
+    else if (checkIndices(spot, [14, 15, 16], propertyIndices))
       return 'bg-yellow-400'
-    else if (checkIndices(spot.id, [17, 18, 19], propertyIndices))
+    else if (checkIndices(spot, [17, 18, 19], propertyIndices))
       return 'bg-green-400'
-    else if (checkIndices(spot.id, [20, 21], propertyIndices))
+    else if (checkIndices(spot, [20, 21], propertyIndices))
       return 'bg-blue-700'
-    else if (checkIndices(spot.id, [0, 1], utilityIndices))
+    else if (checkIndices(spot, [0, 1], utilityIndices))
       return 'bg-zinc-800'
-    else if (checkIndices(spot.id, [0,1,2,3], railroadIndices)) 
+    else if (checkIndices(spot, [0, 1, 2, 3], railroadIndices))
       return 'bg-slate-800'
   }
   return 'bg-black'
 }
 
 export function generateTailwindBackground(spot: Spot | null): string {
-  if (!spot) return "bg-white";
-  if (getType(spot) !== "Property") return "bg-black";
+  if (!spot || (spot.id >= 0 && spot.id < 40)) return "bg-white";
+  if (getType(spot.id) !== "Property") return "bg-black";
 
   switch ((spot as Property).color) {
     case "BROWN":
@@ -120,6 +130,6 @@ export function generateTailwindBackground(spot: Spot | null): string {
 
 export function generateTailwindForeground(spot: Spot | null): string {
   if (!spot) return "text-red-500";
-  if (getType(spot) !== "Property") return "text-white";
+  if (getType(spot.id) !== "Property") return "text-white";
   return "text-black";
 }
