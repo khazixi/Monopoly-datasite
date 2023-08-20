@@ -49,19 +49,18 @@ function download() {
     </button>
 
     <form class="flex flex-row" @submit.prevent>
-      <button class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow"
-        @click="download">
-        Download
+      <button class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow" @click="download">
+        Save
       </button>
       <button class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow">
         Save to Cloud
       </button>
     </form>
 
-    <a v-if="fileGen" :href="fileUrl"> View the File Here</a>
+    <a v-if="fileGen" class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center" :href="fileUrl">Download</a>
     <!-- TODO: Fix up this class tag -->
-    <input type="file" accept=".json"
-      class="file:bg-slate-500 file:text-white file:p-4 file:rounded-lg file:my-2 file:mx-1 file:grow file:border-0 self-center">
+    <label for="upload" class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"> Upload </label>
+    <input id="upload" type="file" accept=".json" class="file:hidden">
 
 
     <button v-if="selectedProperty.name !== ''" class="bg-slate-700 text-white p-4 rounded-lg my-2 mx-1"
