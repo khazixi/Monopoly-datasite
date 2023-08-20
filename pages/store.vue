@@ -2,12 +2,15 @@
 import { ref } from "vue";
 import { usePlayers } from "@/store/player";
 import { Housable } from "util/client";
+import { useObjectUrl } from "@vueuse/core";
 
 const players = usePlayers();
 const gameName = ref("");
 const selectedProperty = ref<Housable>({ name: "", id: -1 });
 const inactiveProperties = ref<Housable[]>([]);
 
+const fileGen = shallowRef<File>()
+const fileUrl = useObjectUrl(fileGen)
 
 function deactivateProperty(property: Housable) {
   inactiveProperties.value.push(property);
@@ -19,11 +22,16 @@ function handleSubmit() {
   selectedProperty.value = { name: "", id: -1 };
 }
 
+
 function transformGame() {
   return {
     name: gameName.value,
     players: players.players
   }
+}
+function download() {
+  const file = new File([JSON.stringify(transformGame())], `save-${gameName.value}.json`)
+  fileGen.value = file
 }
 </script>
 
@@ -40,15 +48,20 @@ function transformGame() {
       Add Player
     </button>
 
-    <div class="flex flex-row">
+    <form class="flex flex-row" @submit.prevent>
       <button class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow"
-        @click="console.log(JSON.stringify(transformGame()))">
+        @click="download">
         Download
       </button>
       <button class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow">
         Save to Cloud
       </button>
-    </div>
+    </form>
+
+    <a v-if="fileGen" :href="fileUrl"> View the File Here</a>
+    <!-- TODO: Fix up this class tag -->
+    <input type="file" accept=".json"
+      class="file:bg-slate-500 file:text-white file:p-4 file:rounded-lg file:my-2 file:mx-1 file:grow file:border-0 self-center">
 
 
     <button v-if="selectedProperty.name !== ''" class="bg-slate-700 text-white p-4 rounded-lg my-2 mx-1"
