@@ -22,9 +22,9 @@ export const useData = defineStore("properties", () => {
     spots.value.forEach((v) => {
       const type = getType(v.id);
       if (type === "Utility" || type === "Railroad") {
-        arr.push({ name: getName(v) ?? 'name', id: v.id });
+        arr.push({ name: getName(v) ?? 'name', position: v.id });
       } else if (type === "Property") {
-        arr.push({ name: getName(v) ?? 'name', houses: 0, id: v.id });
+        arr.push({ name: getName(v) ?? 'name', houses: 0, position: v.id });
       }
     });
     return arr;

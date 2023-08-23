@@ -1,6 +1,6 @@
 export type Housable = {
   // TODO: Incoporate id Numbers
-  id: number;
+  position: number;
   name: string;
   houses?: number;
 };
