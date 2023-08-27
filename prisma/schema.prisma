@@ -75,34 +75,11 @@ model Card {
 }
 
 model Game {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
-  players  Player[]
+  id       Int    @id @default(autoincrement())
+  data     Json
   username String
 
   @@index([username])
-}
-
-model Player {
-  id      Int     @id @default(autoincrement())
-  game    Game    @relation(fields: [game_id], references: [id])
-  money   Int
-  game_id Int
-  name    String
-  owned   Owned[]
-
-  @@index([game_id])
-}
-
-model Owned {
-  id        Int    @id @default(autoincrement())
-  position  Int
-  player    Player @relation(fields: [player_id], references: [id])
-  player_id Int
-  name      String
-  houses    Int?
-
-  @@index([player_id])
 }
 
 model User {

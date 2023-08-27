@@ -9,13 +9,10 @@ export const useData = defineStore("properties", () => {
   const spotIndex = ref(0);
   const cardIndex = ref(0);
 
-  const selectedSpot = computed(
-    () => spots.value[wrapIndex(spotIndex.value, spots.value)],
-  );
-  const selectedCard = computed(
-    () => cards.value[wrapIndex(cardIndex.value, cards.value)],
-  );
+  const selectedSpot = computed(() => spots.value[wrapIndex(spotIndex.value, spots.value)]);
+  const selectedCard = computed(() => cards.value[wrapIndex(cardIndex.value, cards.value)]);
 
+  // NOTE: Maybe this code could be cleaned up?
   const ownables = computed<Housable[]>(() => {
     const arr: Housable[] = [];
     if (spots.value.length === 0) return arr;
@@ -30,8 +27,8 @@ export const useData = defineStore("properties", () => {
     return arr;
   });
 
-  const isEmptySpot = computed(() => (spots.value.length === 0 ? true : false));
-  const isEmptyCard = computed(() => (cards.value.length === 0 ? true : false));
+  const isEmptySpot = computed(() => spots.value.length === 0);
+  const isEmptyCard = computed(() => cards.value.length === 0);
 
   function wrapIndex(idx: number, arr: any[]) {
     return (idx % arr.length) + (idx < 0 ? arr.length : 0);
@@ -39,11 +36,11 @@ export const useData = defineStore("properties", () => {
 
   async function fetchData() {
     // BUG: Only the last await call sends data down on the server
-    const { data: fetchedCards } = await useFetch("/api/cards");
-    const { data: fetchedSpots } = await useFetch("/api/spots");
+    const c = await useFetch('/api/cards')
+    const s = await useFetch('/api/spots')
 
-    spots.value = fetchedSpots.value ?? [];
-    cards.value = fetchedCards.value ?? [];
+    cards.value = c.data.value ?? []
+    spots.value = s.data.value ?? []
   }
 
   onMounted(() => fetchData());

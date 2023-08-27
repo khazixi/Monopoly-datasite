@@ -10,3 +10,18 @@ export type Person = {
   money: number;
   owned: Housable[];
 };
+
+export type Game = {
+  name: string
+  players: {
+    money: number
+    name: string
+    owned: {
+      name: string
+      houses?: number
+      position: number
+    }[]
+  }[]
+}
+
+export type SavableGame = Game & { id: number }

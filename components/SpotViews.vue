@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { bgBySpot, generateTailwindBackground, generateTailwindForeground, getName } from '@/util/helpers'
+import { bgBySpot, getName } from '@/util/helpers'
 import { useData } from '@/store/properties';
 
 const store = useData()
