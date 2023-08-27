@@ -1,5 +1,5 @@
-import { GameRoute } from 'server/util/cleaning'
-import { Game, Housable, Person } from 'util/client'
+import { GameRoute } from '@/server/util/cleaning'
+import { Game, Housable, Person } from '@/util/client'
 
 export default defineStore('game', () => {
   const selected = ref(0)

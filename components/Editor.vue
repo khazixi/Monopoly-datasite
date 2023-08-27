@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Housable, Person } from "util/client";
+import { Housable, Person } from "@/util/client";
 import { bgBySpot } from "@/util/helpers"
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
