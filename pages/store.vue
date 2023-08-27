@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import useGame from "@/store/game";
-import { Housable } from "util/client";
+import { Housable } from "@/util/client";
 import { useObjectUrl } from "@vueuse/core";
 
 const store = useGame();

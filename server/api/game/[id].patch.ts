@@ -24,11 +24,11 @@ export default defineEventHandler(async (event) => {
 
   const gameID = getRouterParam(event, 'id')
 
-  const result = z.number().safeParse(gameID)
+  const result = z.coerce.number().safeParse(gameID)
 
   if (!result.success) throw createError({
     status: 404,
-    statusMessage: "No game Name Provided"
+    statusMessage: "Failed to parse route"
   })
 
   // XXX: Tear this garbage up when prisma gets replaced
@@ -43,11 +43,11 @@ export default defineEventHandler(async (event) => {
     select: {
       id: true,
     }
-  }) as GameRoute | null
+  })
 
   if (!dbResult) throw createError({
-    status: 404,
-    statusMessage: "No game Name Provided"
+    status: 500,
+    statusMessage: "Did not find Resource"
   })
 
   return dbResult

@@ -63,22 +63,18 @@ export default defineStore('game', () => {
   // BUG: /api/save seems to get called on changes
   async function saveState(ingame: Game) {
     console.log('Calling Update')
-    const { data } = await useFetch('/api/save', {
+    const data = await $fetch('/api/save', {
       method: 'POST',
-      body: unref(ingame),
+      body: ingame,
     })
-    if (!data.value) {
-      console.log('FUCK')
-      return
-    }
-    id.value = data.value.id
+    id.value = data.id
   }
 
   async function updateState(ingame: Game) {
     console.log('Calling Save')
-    await useFetch(`/api/game/${id}`, {
+    await $fetch(`/api/game/${id.value}`, {
       method: 'PATCH',
-      body: unref(ingame)
+      body: ingame
     })
   }
 
