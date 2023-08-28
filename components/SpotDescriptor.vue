@@ -5,9 +5,6 @@ import type { Drawable, Property, Railroad, Special, Utilities } from '@prisma/c
 const props = defineProps<{ spot: Spot }>()
 
 const spotType = computed(() => {
-  console.log(props.spot)
-  console.log(typeof props.spot)
-  console.log(props.spot.id)
   return getType(props.spot.id)
 })
 </script>

@@ -9,11 +9,6 @@ if (user.value) {
 async function handleSubmit(e: Event) {
   if (!(e.target instanceof HTMLFormElement)) return;
   const formData = new FormData(e.target);
-  const a = {
-    username: formData.get("username"),
-    password: formData.get("password")
-  }
-  console.log(a);
   await $fetch("/api/signup", {
     method: "post",
     body: {
