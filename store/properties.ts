@@ -36,11 +36,11 @@ export const useData = defineStore("properties", () => {
 
   async function fetchData() {
     // BUG: Only the last await call sends data down on the server
-    const c = await useFetch('/api/cards')
-    const s = await useFetch('/api/spots')
+    const c = await $fetch('/api/cards')
+    const s = await $fetch('/api/spots')
 
-    cards.value = c.data.value ?? []
-    spots.value = s.data.value ?? []
+    cards.value = c ?? []
+    spots.value = s ?? []
   }
 
   onMounted(() => fetchData());
