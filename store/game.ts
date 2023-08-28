@@ -60,9 +60,7 @@ export default defineStore('game', () => {
     id.value = prop.id
   }
 
-  // BUG: /api/save seems to get called on changes
   async function saveState(ingame: Game) {
-    console.log('Calling Update')
     const data = await $fetch('/api/save', {
       method: 'POST',
       body: ingame,
@@ -71,7 +69,6 @@ export default defineStore('game', () => {
   }
 
   async function updateState(ingame: Game) {
-    console.log('Calling Save')
     await $fetch(`/api/game/${id.value}`, {
       method: 'PATCH',
       body: ingame
