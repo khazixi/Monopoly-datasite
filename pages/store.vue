@@ -40,45 +40,88 @@ function download() {
   <section class="bg-zinc-200 h-max flex flex-col">
     <form class="bg-zinc-300 m-2 border-slate-600 border-2 p-4">
       <label>Game Name: </label>
-      <input v-model="store.game.name" class="border-black border-2 border-solid rounded-lg px-2 my-4" type="text"
-        placeholder="Fill in This Game">
+      <input
+        v-model="store.game.name"
+        class="border-black border-2 border-solid rounded-lg px-2 my-4"
+        type="text"
+        placeholder="Fill in This Game"
+      >
     </form>
 
-    <button class="bg-slate-700 text-white p-4 rounded-lg my-2 mx-1" @click="store.addNewPlayer()">
+    <button
+      class="bg-slate-700 text-white p-4 rounded-lg my-2 mx-1"
+      @click="store.addNewPlayer()"
+    >
       Add Player
     </button>
 
-    <form class="flex flex-row" @submit.prevent>
-      <button class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow" @click="download">
+    <form
+      class="flex flex-row"
+      @submit.prevent
+    >
+      <button
+        class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow"
+        @click="download"
+      >
         Save
       </button>
-      <button @click="handleCloud" class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow">
+      <button
+        class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow"
+        @click="handleCloud"
+      >
         Save to Cloud
       </button>
     </form>
 
-    <a v-if="fileGen" class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"
-      :href="fileUrl">Download</a>
+    <a
+      v-if="fileGen"
+      class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"
+      :href="fileUrl"
+    >Download</a>
     <!-- TODO: Fix up this class tag -->
-    <label for="upload" class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"> Upload </label>
-    <input id="upload" type="file" accept=".json" class="file:hidden">
+    <label
+      for="upload"
+      class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"
+    > Upload </label>
+    <input
+      id="upload"
+      type="file"
+      accept=".json"
+      class="file:hidden"
+    >
 
 
-    <button v-if="selectedProperty.name !== ''" class="bg-slate-700 text-white p-4 rounded-lg my-2 mx-1"
-      @click="handleSubmit()">
+    <button
+      v-if="selectedProperty.name !== ''"
+      class="bg-slate-700 text-white p-4 rounded-lg my-2 mx-1"
+      @click="handleSubmit()"
+    >
       Add {{ selectedProperty.name }} to {{ store.selectedPlayer.name }}
     </button>
 
-    <Search :houses="store.owned" @selected="(n) => (selectedProperty = n)" />
+    <Search
+      :houses="store.owned"
+      @selected="(n) => (selectedProperty = n)"
+    />
 
     <section class="flex flex-col sm:flex-row">
-      <Editor class="basis-2/3" :player="store.selectedPlayer" :index="store.selected"
+      <Editor
+        class="basis-2/3"
+        :player="store.selectedPlayer"
+        :index="store.selected"
         @update-player="(p) => store.updatePlayer(store.selected, p)"
-        @delete-spot="(d) => store.removeProperty(store.selected, d)" />
+        @delete-spot="(d) => store.removeProperty(store.selected, d)"
+      />
 
       <div class="basis-1/3">
-        <Viewer v-for="{ player, index } in store.unselectedPlayer" :key="player.name" :player="player" :index="index"
-          @select-player="(s) => store.selected = s" @delete-player="(d) => store.removePlayer(d)" />
+        <Viewer
+          v-for="{ player, index } in store.unselectedPlayer"
+          :key="player.name"
+          :player="player"
+          :index="index"
+          @select-player="(s) => store.selected = s"
+          @delete-player="(d) => store.removePlayer(d)"
+        />
       </div>
     </section>
   </section>
