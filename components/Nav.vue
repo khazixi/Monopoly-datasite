@@ -16,6 +16,6 @@ async function handleClick() {
 
     <NuxtLink class="text-white p-4 bg-gray-600 rounded-md mx-2 ml-auto" to="/profile"> Profile </NuxtLink>
     <button v-if="user" @click="handleClick" class="text-white p-2 bg-blue-600 rounded-md mr-2"> Log Out</button>
-    <NuxtLink v-else class="text-white ml-auto p-4 bg-blue-600 rounded-md mr-2" to="/signup"> Sign Up</NuxtLink>
+    <NuxtLink v-else class="text-white p-4 bg-blue-600 rounded-md mr-2" to="/signup"> Sign Up</NuxtLink>
   </nav>
 </template>
