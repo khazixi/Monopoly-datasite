@@ -1,7 +1,7 @@
-import { prisma } from "../util/db";
+import { prisma } from "@/server/util/db";
 
 export default defineEventHandler(async () => {
-  const spots = await Promise.all([
+  const spots = await prisma.$transaction([
     prisma.property.findMany(),
     prisma.railroad.findMany(),
     prisma.utilities.findMany(),
@@ -9,7 +9,6 @@ export default defineEventHandler(async () => {
     prisma.drawable.findMany(),
   ])
     .then(res => res.flat().sort((a, b) => a.id - b.id))
-    .catch(() => { console.log('fuck'); return null });
 
   if (!spots)
     throw createError({
