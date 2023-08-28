@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
   if (!result.success) {
     throw createError({
-      status: 404,
+      status: 400,
       statusMessage: result.error.message
     })
   }
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   const session = await authRequest.validate()
   if (!session) {
     throw createError({
-      status: 404,
+      status: 401,
       statusMessage: "Invalid Session"
     })
   }
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
 
   if (!dbResult) {
     throw createError({
-      status: 404,
+      status: 500,
       statusMessage: "Failed to Create Games"
     })
   }

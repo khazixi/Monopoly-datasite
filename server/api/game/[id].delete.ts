@@ -17,8 +17,8 @@ export default defineEventHandler(async (event) => {
   const result = z.coerce.number().safeParse(gameID)
 
   if (!result.success) throw createError({
-    status: 404,
-    statusMessage: "No game Name Provided"
+    status: 400,
+    statusMessage: "No game ID Provided"
   })
 
   const out = await prisma.game.delete({

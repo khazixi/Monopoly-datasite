@@ -6,8 +6,7 @@ import "lucia/polyfill/node"
 
 export const auth = lucia({
   adapter: prisma(db),
-  env: "DEV",
-  // env: process.dev ? "DEV" : "PROD",
+  env: process.dev ? "DEV" : "PROD",
   middleware: h3(),
   csrfProtection: true,
 

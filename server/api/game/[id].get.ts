@@ -17,8 +17,8 @@ export default defineEventHandler(async (event) => {
   const result = z.coerce.number().safeParse(gameID)
 
   if (!result.success) throw createError({
-    status: 404,
-    statusMessage: "No game Name Provided"
+    status: 400,
+    statusMessage: "Improper Game ID Provided"
   })
 
   const game = await prisma.game.findUnique({
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
   const gameResult = gameRoute.safeParse(game)
 
   if (!gameResult.success) throw createError({
-    status: 404,
+    status: 500,
     statusMessage: "Unable to find game",
   })
 

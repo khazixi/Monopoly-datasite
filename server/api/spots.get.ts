@@ -12,7 +12,7 @@ export default defineEventHandler(async () => {
 
   if (!spots)
     throw createError({
-      statusCode: 404,
+      statusCode: 500,
       statusMessage: "Failed to Query the Proper Spots",
     });
 

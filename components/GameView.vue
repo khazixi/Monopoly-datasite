@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useGame from '@/store/game'
+import useGame from '@/stores/game'
 import { useArrayFilter } from '@vueuse/core'
 import { GameRoute } from '@/server/util/cleaning';
 const prop = defineProps<{ games: GameRoute[] }>()

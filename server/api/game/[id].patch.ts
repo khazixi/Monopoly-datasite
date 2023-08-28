@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   if (!gameResult.success) {
     throw createError({
-      status: 404,
+      status: 400,
       statusMessage: gameResult.error.message
     })
   }
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
   const result = z.coerce.number().safeParse(gameID)
 
   if (!result.success) throw createError({
-    status: 404,
+    status: 400,
     statusMessage: "Failed to parse route"
   })
 
@@ -46,7 +46,7 @@ export default defineEventHandler(async (event) => {
   })
 
   if (!dbResult) throw createError({
-    status: 500,
+    status: 404,
     statusMessage: "Did not find Resource"
   })
 

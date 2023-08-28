@@ -5,6 +5,7 @@
 .cache
 dist
 build
+.vercel
 
 # Node dependencies
 node_modules

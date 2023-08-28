@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { bgBySpot, getName } from '@/util/helpers'
-import { useData } from '@/store/properties';
+import { useData } from '@/stores/properties';
 
 const store = useData()
 const { spotIndex, selectedSpot, isEmptySpot } = storeToRefs(store)

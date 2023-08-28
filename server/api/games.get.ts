@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   if (!session) {
     throw createError({
-      status: 404,
+      status: 401,
       statusMessage: "Invalid Session"
     })
   }
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
   const result = gameRoute.array().safeParse(games)
 
   if (!result.success) throw createError({
-    status: 404,
+    status: 500,
     message: result.error.message
   })
 
