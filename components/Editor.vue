@@ -19,7 +19,7 @@ const emits = defineEmits<{
   deleteSpot: [o: Housable]
 }>();
 
-const selected = ref<Person>({ name: '', money: 1500, owned: [] })
+const selected = ref<Person>(props.player)
 watch(toRef(props, "player"), (p) => {
   selected.value = p
 });
@@ -47,6 +47,7 @@ function handleDecrement(owned: Housable) {
     <label> Name: </label>
     <input
       v-model="selected.name"
+      placeholder="fill in this name"
       class="border-black border rounded p-1"
       type="text"
       @input="emits('updatePlayer', selected)"
