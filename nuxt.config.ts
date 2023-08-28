@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     strict: true,
   },
   nitro: {
+    preset: 'vercel',
 		moduleSideEffects: ["lucia/polyfill/node"],
   },
   pinia: {
