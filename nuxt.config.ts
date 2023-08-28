@@ -4,6 +4,9 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
+  nitro: {
+    preset: 'vercel',
+  },
   pinia: {
     autoImports: ["defineStore", ["defineStore", "definePiniaStore"]],
   },
