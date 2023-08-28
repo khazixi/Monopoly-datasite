@@ -28,8 +28,6 @@ enum Cardtype {
   COMMUNITYCHEST
 }
 
-// NOTE: Mortgages are half the price of any buyable value
-
 model Property {
   id    Int    @id @unique // ID corresponds to the spot on the board
   name  String @unique

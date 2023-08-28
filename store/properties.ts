@@ -12,19 +12,16 @@ export const useData = defineStore("properties", () => {
   const selectedSpot = computed(() => spots.value[wrapIndex(spotIndex.value, spots.value)]);
   const selectedCard = computed(() => cards.value[wrapIndex(cardIndex.value, cards.value)]);
 
-  // NOTE: Maybe this code could be cleaned up?
   const ownables = computed<Housable[]>(() => {
-    const arr: Housable[] = [];
-    if (spots.value.length === 0) return arr;
-    spots.value.forEach((v) => {
-      const type = getType(v.id);
-      if (type === "Utility" || type === "Railroad") {
-        arr.push({ name: getName(v) ?? 'name', position: v.id });
-      } else if (type === "Property") {
-        arr.push({ name: getName(v) ?? 'name', houses: 0, position: v.id });
-      }
-    });
-    return arr;
+    const a = spots.value.reduce<Housable[]>((acc, curr) => {
+      acc.push({
+        name: getName(curr),
+        position: curr.id,
+        houses: (getType(curr.id) === 'Property') ? 0 : undefined
+      })
+      return acc
+    }, [])
+    return a;
   });
 
   const isEmptySpot = computed(() => spots.value.length === 0);
@@ -35,11 +32,12 @@ export const useData = defineStore("properties", () => {
   }
 
   async function fetchData() {
-    // BUG: Only the last await call sends data down on the server
-    const c = await $fetch('/api/cards')
-    const s = await $fetch('/api/spots')
+    // INFO: Cards are commented out to save on bandwidth
 
-    cards.value = c ?? []
+    // const c = await $fetch('/api/cards')
+    // cards.value = c ?? []
+
+    const s = await $fetch('/api/spots')
     spots.value = s ?? []
   }
 

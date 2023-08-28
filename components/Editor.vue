@@ -133,7 +133,5 @@ function handleDecrement(owned: Housable) {
       @change="emits('updatePlayer', selected)"
     >
     <br>
-    <!-- <button @click="emits('updatePlayer', selected)" class="bg-black text-white p-2 rounded-md"> Save </button> -->
-    <!-- TODO: Make this work later: <button> Unselect </button> -->
   </form>
 </template>

@@ -33,7 +33,6 @@ export default defineEventHandler(async (event) => {
     authRequest.setSession(session);
     return sendRedirect(event, "/");
   } catch (e) {
-    // TODO: Clean Up the Error Handling Later
     if (e instanceof Error) {
       throw createError({
         message: e.message,

@@ -21,14 +21,11 @@ function handleSubmit() {
   selectedProperty.value = { name: "", position: -1 };
 }
 
-// BUG: /api/save seems to get called on changes
 function handleCloud() {
   if (store.id) {
     store.updateState(store.game)
-    return
   } else {
     store.saveState(store.game)
-    return
   }
 }
 
@@ -74,7 +71,6 @@ function download() {
 
     <Search :houses="store.owned" @selected="(n) => (selectedProperty = n)" />
 
-    <!-- BUG: Should not render if no player is selected -->
     <section class="flex flex-col sm:flex-row">
       <Editor class="basis-2/3" :player="store.selectedPlayer" :index="store.selected"
         @update-player="(p) => store.updatePlayer(store.selected, p)"

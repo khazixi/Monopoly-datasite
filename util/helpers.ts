@@ -50,6 +50,7 @@ export function getType(spotIndex: number) {
   else if (localFind(railroadIndices, spotIndex)) return 'Railroad'
   else if (localFind(drawableIndices, spotIndex)) return 'Drawable'
   else if (localFind(propertyIndices, spotIndex)) return 'Property'
+  else return 'Error'
 }
 
 export function getName(spot: Spot) {
@@ -66,6 +67,7 @@ export function getName(spot: Spot) {
         : "Community Chest";
     case "Property":
       return (spot as Property).name;
+    default: return 'name'
   }
 }
 
