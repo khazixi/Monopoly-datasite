@@ -4,9 +4,11 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
-  nitro: {
-    preset: 'vercel',
-		moduleSideEffects: ["lucia/polyfill/node"],
+  $production: {
+    nitro: {
+      preset: 'vercel',
+      moduleSideEffects: ["lucia/polyfill/node"],
+    },
   },
   pinia: {
     autoImports: ["defineStore", ["defineStore", "definePiniaStore"]],
