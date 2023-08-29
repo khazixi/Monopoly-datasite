@@ -37,11 +37,14 @@ export const useData = defineStore("properties", () => {
     // const c = await $fetch('/api/cards')
     // cards.value = c ?? []
 
-    const s = await $fetch('/api/spots')
+    const s = await $fetch('/api/spots', {
+      method: 'GET',
+    })
     spots.value = s ?? []
   }
 
-  onMounted(() => fetchData());
+  // NOTE: Removing this line to see if to test if it fixes Vercel
+  // onMounted(() => fetchData());
 
   return {
     spots,
