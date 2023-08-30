@@ -1,5 +1,5 @@
 import { gameSchema } from "../util/cleaning";
-import { prisma } from "../util/db";
+import { saveGame } from "../util/db";
 import { auth } from "../util/lucia";
 
 export default defineEventHandler(async (event) => {
@@ -23,20 +23,14 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const dbResult = await prisma.game.create({
-    select: {
-      id: true,
-    },
-    data: {
-      username: session.user.username,
-      data: game,
-    }
-  })
+  const dbResult = await saveGame(session.user.username, game)
+  .then(() => true)
+  .catch(() => false)
 
   if (!dbResult) {
     throw createError({
       status: 500,
-      statusMessage: "Failed to Create Games"
+      statusMessage: "Failed to save Games"
     })
   }
 

@@ -17,21 +17,25 @@
     "@nuxt/eslint-config": "^0.1.1",
     "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
-    "@types/node": "^18.17.11",
-    "@typescript-eslint/parser": "^6.4.1",
+    "@types/node": "^18.17.12",
+    "@typescript-eslint/parser": "^6.5.0",
+    "drizzle-kit": "^0.19.13",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "nuxt": "^3.7.0",
-    "prettier": "^3.0.2",
+    "prettier": "^3.0.3",
     "prisma": "^5.2.0",
     "tsx": "^3.12.7"
   },
   "dependencies": {
+    "@lucia-auth/adapter-postgresql": "^2.0.1",
     "@lucia-auth/adapter-prisma": "^3.0.1",
     "@pinia/nuxt": "^0.4.11",
     "@prisma/client": "^5.2.0",
-    "@vueuse/core": "^10.4.0",
+    "@vueuse/core": "^10.4.1",
+    "drizzle-orm": "^0.28.5",
     "lucia": "^2.4.0",
+    "postgres": "^3.3.5",
     "zod": "^3.22.2"
   }
 }

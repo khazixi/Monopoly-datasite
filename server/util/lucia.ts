@@ -1,11 +1,15 @@
-import { prisma } from "@lucia-auth/adapter-prisma";
+import { postgres } from "@lucia-auth/adapter-postgresql";
 import { lucia } from "lucia";
 import { h3 } from "lucia/middleware";
-import { prisma as db } from "./db";
+import { queryClient } from "./db";
 import "lucia/polyfill/node"
 
 export const auth = lucia({
-  adapter: prisma(db),
+  adapter: postgres(queryClient, {
+    user: 'User',
+    session: 'Session',
+    key: 'Key'
+  }),
   env: process.dev ? "DEV" : "PROD",
   middleware: h3(),
   csrfProtection: true,

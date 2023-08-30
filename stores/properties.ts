@@ -44,7 +44,7 @@ export const useData = defineStore("properties", () => {
   }
 
   // NOTE: Removing this line to see if to test if it fixes Vercel
-  // onMounted(() => fetchData());
+  onMounted(() => fetchData());
 
   return {
     spots,

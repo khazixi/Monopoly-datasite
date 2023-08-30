@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { gameRoute } from "../../util/cleaning";
-import { prisma } from "../../util/db";
+import { getGame, prisma } from "../../util/db";
 import { auth } from "../../util/lucia";
 
 export default defineEventHandler(async (event) => {
@@ -21,18 +21,9 @@ export default defineEventHandler(async (event) => {
     statusMessage: "Improper Game ID Provided"
   })
 
-  const game = await prisma.game.findUnique({
-    where: {
-      username: session.user.username,
-      id: result.data
-    },
-    select: {
-      id: true,
-      data: true,
-    }
-  })
+  const game = await getGame(session.user.username, result.data)
 
-  const gameResult = gameRoute.safeParse(game)
+  const gameResult = gameRoute.safeParse(game.at(0))
 
   if (!gameResult.success) throw createError({
     status: 500,

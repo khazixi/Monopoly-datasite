@@ -4,7 +4,6 @@ import { bgBySpot, getName } from '@/util/helpers'
 import { useData } from '@/stores/properties';
 
 const store = useData()
-store.fetchData()
 const { spotIndex, selectedSpot, isEmptySpot } = storeToRefs(store)
 
 </script>

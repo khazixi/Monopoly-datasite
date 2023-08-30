@@ -1,5 +1,5 @@
 import { gameRoute } from "../util/cleaning";
-import { prisma } from "../util/db";
+import { getGames, prisma } from "../util/db";
 import { auth } from "../util/lucia";
 
 export default defineEventHandler(async (event) => {
@@ -13,15 +13,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const games = await prisma.game.findMany({
-    where: {
-      username: session.user.username
-    },
-    select: {
-      id: true,
-      data: true,
-    },
-  })
+  const games = await getGames(session.user.username)
 
   // NOTE: I am using zod to verify db json values
   const result = gameRoute.array().safeParse(games)

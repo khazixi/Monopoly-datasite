@@ -1,4 +1,4 @@
-import { prisma } from "../../util/db"
+import { prisma, updateGame } from "../../util/db"
 import { z } from "zod"
 import { auth } from "../../util/lucia"
 import { GameRoute, gameSchema } from "../../util/cleaning"
@@ -31,25 +31,17 @@ export default defineEventHandler(async (event) => {
     statusMessage: "Failed to parse route"
   })
 
-  // XXX: Tear this garbage up when prisma gets replaced
-  const dbResult = await prisma.game.update({
-    where: {
-      username: session.user.username,
-      id: result.data
-    },
-    data: {
-      data: gameResult.data
-    },
-    select: {
-      id: true,
-    }
+  const dbResult = await updateGame(session.user.username, {
+    id: result.data,
+    data: gameResult.data,
   })
+    .then(() => true)
+    .catch(() => false)
 
   if (!dbResult) throw createError({
-    status: 404,
+    status: 500,
     statusMessage: "Did not find Resource"
   })
 
   return dbResult
-
 })
