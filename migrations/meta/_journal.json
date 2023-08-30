@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1693419711588,
+      "tag": "0000_demonic_wind_dancer",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1693431814848,
+      "tag": "0001_nappy_cobalt_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1693433162477,
+      "tag": "0002_powerful_darkhawk",
+      "breakpoints": true
+    }
+  ]
+}

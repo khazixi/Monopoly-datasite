@@ -1,5 +1,5 @@
 import { gameRoute } from "../util/cleaning";
-import { getGames, prisma } from "../util/db";
+import { getGames } from "../util/db";
 import { auth } from "../util/lucia";
 
 export default defineEventHandler(async (event) => {

@@ -1,16 +1,16 @@
-import { Card } from "@prisma/client";
 import { Housable } from "@/util/client";
-import { getName, getType, Spot } from "@/util/helpers";
+import { getName, getType } from "@/util/helpers";
+import { pgCard, pgDrawable, pgProperty, pgSpecial } from "~/server/util/schema";
 
 export const useData = defineStore("properties", () => {
-  const spots = ref<Spot[]>([]);
-  const cards = ref<Card[]>([]);
+  const spots = ref<Array<pgSpecial | pgDrawable | pgProperty>>([]);
+  const cards = ref<pgCard[]>([]);
 
   const spotIndex = ref(0);
-  const cardIndex = ref(0);
+  // const cardIndex = ref(0);
 
   const selectedSpot = computed(() => spots.value[wrapIndex(spotIndex.value, spots.value)]);
-  const selectedCard = computed(() => cards.value[wrapIndex(cardIndex.value, cards.value)]);
+  // const selectedCard = computed(() => cards.value[wrapIndex(cardIndex.value, cards.value)]);
 
   const ownables = computed<Housable[]>(() => {
     const a = spots.value.reduce<Housable[]>((acc, curr) => {
@@ -40,7 +40,13 @@ export const useData = defineStore("properties", () => {
     const s = await $fetch('/api/spots', {
       method: 'GET',
     })
-    spots.value = s ?? []
+
+    if (s.length === 0) {
+      spots.value = []
+      return
+    }
+
+    spots.value = s.sort((a,b) => a.id - b.id)
   }
 
   // NOTE: Removing this line to see if to test if it fixes Vercel
@@ -52,10 +58,10 @@ export const useData = defineStore("properties", () => {
     ownables,
     fetchData,
     spotIndex,
-    cardIndex,
+    // cardIndex,
     isEmptyCard,
     isEmptySpot,
     selectedSpot,
-    selectedCard,
+    // selectedCard,
   };
 });

@@ -1,4 +1,5 @@
-import { pgEnum, pgTable, serial, text, integer, bigint } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, serial, text, integer, bigint, json, index } from "drizzle-orm/pg-core";
+import type { InferSelectModel } from 'drizzle-orm'
 
 export const colorsEnum = pgEnum('Color', [
   "BROWN",
@@ -9,6 +10,7 @@ export const colorsEnum = pgEnum('Color', [
   "YELLOW",
   "GREEN",
   "BLUE",
+  "NONE"
 ])
 
 export const cardsEnum = pgEnum('Cardtype', [
@@ -21,7 +23,7 @@ export const property = pgTable('Property', {
   name: text('name').unique().notNull(),
   price: integer('price').notNull(),
   rent: integer('rent').array().notNull(),
-  color: colorsEnum('color'),
+  color: colorsEnum('color').notNull(),
 })
 
 export const houses = pgTable('Houses', {
@@ -43,26 +45,27 @@ export const drawable = pgTable('Drawable', {
 export const card = pgTable('Card', {
   id: serial('id').primaryKey(),
   type: cardsEnum('type').notNull(),
-  description: text('description').unique().notNull(),
+  description: text('description').notNull(),
 })
 
 export const game = pgTable('Game', {
-  id: serial('id').primaryKey(), data: json('data').notNull(),
-  username: text('string').notNull(),
+  id: serial('id').primaryKey(),
+  data: json('data').notNull(),
+  username: text('username').notNull(),
 }, (table) => ({
   username_idx: index('username_idx').on(table.username)
 }))
 
 export const user = pgTable('User', {
   id: serial('id').primaryKey(),
-  username: text('string').notNull(),
+  username: text('username').notNull(),
 })
 
 export const session = pgTable('Session', {
   id: serial('id').primaryKey(),
   user_id: text('user_id').notNull().references(() => user.id),
-  active_expires: bigint('active_expires').notNull(),
-  idle_expires: bigint('idle_expires').notNull(),
+  active_expires: bigint('active_expires', {mode: 'number'}).notNull(),
+  idle_expires: bigint('idle_expires', {mode: 'number'}).notNull(),
 }, (table) => ({
   user_id_idx: index('user_id_idx').on(table.user_id)
 }))
@@ -75,3 +78,7 @@ export const key = pgTable('Key', {
   user_id_idx: index('user_id_idx').on(table.user_id)
 }))
 
+export type pgProperty = InferSelectModel<typeof property> 
+export type pgSpecial = InferSelectModel<typeof special>
+export type pgDrawable = InferSelectModel<typeof drawable>
+export type pgCard = InferSelectModel<typeof card>

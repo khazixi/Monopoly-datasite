@@ -1,4 +1,4 @@
-import { prisma, updateGame } from "../../util/db"
+import { updateGame } from "../../util/db"
 import { z } from "zod"
 import { auth } from "../../util/lucia"
 import { GameRoute, gameSchema } from "../../util/cleaning"

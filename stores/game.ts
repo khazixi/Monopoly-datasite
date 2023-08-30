@@ -44,7 +44,6 @@ export default defineStore('game', () => {
     game.players[idx].owned = game.players[idx].owned.filter((val) => val.position !== props.position)
   }
 
-  // TODO: Refactor to use index: number instead of player: Person
   function updateHouse(idx: number, prop: Housable) {
     const gIdx = game.players[idx].owned.findIndex((p) => p.name === prop.name)
     if (gIdx === -1) {

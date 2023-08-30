@@ -1,11 +1,4 @@
-import {
-  Drawable,
-  Property,
-  Railroad,
-  Special,
-  Utilities,
-} from "@prisma/client";
-import { Housable } from "./client";
+import { pgDrawable, pgProperty, pgSpecial } from "~/server/util/schema";
 
 export const specialIndices = [0, 4, 10, 20, 30, 38] as const;
 export const utilityIndices = [12, 28] as const;
@@ -16,7 +9,6 @@ export const propertyIndices = [
   39,
 ] as const;
 
-export type Spot = Property | Railroad | Special | Utilities | Drawable;
 export type SpecialIndices = (typeof specialIndices)[number];
 export type UtilityIndices = (typeof utilityIndices)[number];
 export type RailroadIndices = (typeof railroadIndices)[number];
@@ -53,20 +45,16 @@ export function getType(spotIndex: number) {
   else return 'Error'
 }
 
-export function getName(spot: Spot) {
+export function getName(spot: pgProperty | pgSpecial | pgDrawable) {
   switch (getType(spot.id)) {
     case "Special":
-      return (spot as Special).name;
+      return (spot as pgSpecial).name;
     case "Utility":
-      return (spot as Utilities).name;
     case "Railroad":
-      return (spot as Railroad).name;
-    case "Drawable":
-      return (spot as Drawable).type === "CHANCE"
-        ? "Chance"
-        : "Community Chest";
     case "Property":
-      return (spot as Property).name;
+      return (spot as pgProperty).name;
+    case "Drawable":
+      return (spot as pgDrawable).type
     default: return 'name'
   }
 }
@@ -102,36 +90,4 @@ export function bgBySpot(spot: number) {
       return 'bg-slate-800'
   }
   return 'bg-black'
-}
-
-export function generateTailwindBackground(spot: Spot | null): string {
-  if (!spot || (spot.id >= 0 && spot.id < 40)) return "bg-white";
-  if (getType(spot.id) !== "Property") return "bg-black";
-
-  switch ((spot as Property).color) {
-    case "BROWN":
-      return "bg-amber-900";
-    case "LIGHTBLUE":
-      return "bg-sky-300";
-    case "PINK":
-      return "bg-fuchsia-500";
-    case "ORANGE":
-      return "bg-orange-400";
-    case "RED":
-      return "bg-red-600";
-    case "YELLOW":
-      return "bg-yellow-400";
-    case "GREEN":
-      return "bg-green-600";
-    case "BLUE":
-      return "bg-blue-700";
-    default:
-      return "bg-black";
-  }
-}
-
-export function generateTailwindForeground(spot: Spot | null): string {
-  if (!spot) return "text-red-500";
-  if (getType(spot.id) !== "Property") return "text-white";
-  return "text-black";
 }

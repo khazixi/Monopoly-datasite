@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { gameRoute } from "../../util/cleaning";
-import { getGame, prisma } from "../../util/db";
+import { getGame } from "../../util/db";
 import { auth } from "../../util/lucia";
 
 export default defineEventHandler(async (event) => {

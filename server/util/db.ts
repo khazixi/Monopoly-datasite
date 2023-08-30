@@ -1,20 +1,17 @@
-import { PrismaClient } from "@prisma/client";
-
 import postgres from 'postgres'
 import { drizzle } from 'drizzle-orm/postgres-js'
-import { migrate } from 'drizzle-orm/postgres-js/migrator'
 import { card, game, property, special, drawable } from "./schema";
 import { Game, GameRoute } from "./cleaning";
-import { and, eq, ne } from "drizzle-orm";
-import { PgColumn } from "drizzle-orm/pg-core";
+import { and, eq } from "drizzle-orm";
 
-export const prisma = new PrismaClient();
+if (!process.env.DATABASE_URL) {
+  import('dotenv').then(v => v.config())
+}
 
-export const queryClient = postgres(process.env.DATABASE_URL!)
-export const db = drizzle(queryClient)
+export const queryClient = postgres(process.env.DATABASE_URL! ,{ ssl: 'require' })
+export const migrationClient = postgres(process.env.DATABASE_URL!, { max: 1, ssl: 'require' })
+export const db = drizzle(queryClient, { logger: true })
 
-const migrationClient = postgres(process.env.DATABASE_URL!, { max: 1 })
-await migrate(drizzle(migrationClient), { migrationsFolder: 'drizzle' })
 
 // NOTE: I'll just put queries here
 export async function getCards() {
@@ -75,10 +72,23 @@ export async function deleteGame(username: string, id: number) {
 }
 
 export async function getSpots() {
-  return db
-    .select()
-    .from(property)
-    .fullJoin(special, ne(special.id, property.id))
-    .fullJoin(drawable, ne(drawable.id, property.id))
-}
+  // return db
+  //   .select()
+  //   .from(property)
+  //   .leftJoin(special, eq(special.id, property.id))
+  //   .leftJoin(drawable, eq(drawable.id, property.id))
+  //
 
+  // PERF: I think this has the same perf as a join
+  return db.transaction(async tx => {
+    const props = await tx.select().from(property)
+    const spec = await tx.select().from(special)
+    const draw = await tx.select().from(drawable)
+
+    return [
+      ...props,
+      ...spec,
+      ...draw
+    ]
+  })
+}

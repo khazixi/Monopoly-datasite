@@ -7,7 +7,6 @@ const props = defineProps<{ player: Person; index: number }>();
 const breakpoints = useBreakpoints(breakpointsTailwind)
 
 const mobileBreakpoint = breakpoints.greaterOrEqual('sm')
-// TODO: Remove Other Events
 function abbreviate(name: string, viewport: boolean) {
   if (viewport) {
     return name.slice(0, 3) + "..."

@@ -78,7 +78,6 @@ function download() {
       class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"
       :href="fileUrl"
     >Download</a>
-    <!-- TODO: Fix up this class tag -->
     <label
       for="upload"
       class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"

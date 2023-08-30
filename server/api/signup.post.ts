@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { auth } from "../util/lucia";
 
@@ -41,12 +40,6 @@ export default defineEventHandler(async (event) => {
     authRequest.setSession(session);
     return sendRedirect(event, "/"); // redirect to profile page
   } catch (e) {
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      throw createError({
-        message: "Username already taken",
-        statusCode: 400
-      });
-    }
     throw createError({
       message: (e as Error).message,
       statusCode: 500

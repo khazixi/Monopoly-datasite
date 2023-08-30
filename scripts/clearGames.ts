@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client"
+import { db } from "../db"
+import { game } from "../schema"
 
-async function clearGames() {
-  const prisma = new PrismaClient()
-
-  const a = await prisma.game.deleteMany({})
-}
-
-clearGames()
+await db.delete(game)
+  .then(() => console.log('Successfully Deleted Games'))
+  .catch(() => console.log('Successfully Deleted Games'))
