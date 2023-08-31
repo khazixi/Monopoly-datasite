@@ -2,14 +2,10 @@
 import { ref } from "vue";
 import useGame from "@/stores/game";
 import { Housable } from "@/util/client";
-import { useObjectUrl } from "@vueuse/core";
 
 const store = useGame();
 const selectedProperty = ref<Housable>({ name: "", position: -1 });
 const inactiveProperties = ref<Housable[]>([]);
-
-const fileGen = shallowRef<File>()
-const fileUrl = useObjectUrl(fileGen)
 
 function deactivateProperty(property: Housable) {
   inactiveProperties.value.push(property);
@@ -31,7 +27,8 @@ function handleCloud() {
 
 function download() {
   const file = new File([JSON.stringify(store.game)], `save-${store.game.name}.json`)
-  fileGen.value = file
+  window.open(URL.createObjectURL(file))
+  
 }
 </script>
 
@@ -63,31 +60,31 @@ function download() {
         class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow"
         @click="download"
       >
-        Save
+        Download
       </button>
+      <!-- <a -->
+      <!--   v-if="fileGen" -->
+      <!--   class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center" -->
+      <!--   :href="fileUrl" -->
+      <!-- >Download</a> -->
       <button
         class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow"
         @click="handleCloud"
       >
         Save to Cloud
       </button>
+      <label
+        for="upload"
+        class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"
+      > Upload </label>
+      <input
+        id="upload"
+        type="file"
+        accept=".json"
+        class="file:hidden hidden"
+      >
     </form>
 
-    <a
-      v-if="fileGen"
-      class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"
-      :href="fileUrl"
-    >Download</a>
-    <label
-      for="upload"
-      class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center"
-    > Upload </label>
-    <input
-      id="upload"
-      type="file"
-      accept=".json"
-      class="file:hidden"
-    >
 
 
     <button
