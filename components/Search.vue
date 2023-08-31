@@ -34,9 +34,10 @@ const searchItems = computed<Housable[]>(() => {
 </script>
 
 <template>
-  <div class="px-2 sm:w-max">
+  <div class="px-2 w-full self-center">
     <input
       v-model="text"
+      autocomplete="off"
       class="border-slate-800 bg-slate-300 p-2 border-2 border-solid rounded-t-sm px-2 w-full"
       :class="(!text.length) ? 'rounded-b-sm' : ''"
       type="search"

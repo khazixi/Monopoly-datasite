@@ -28,22 +28,22 @@ function handleCloud() {
 function download() {
   const file = new File([JSON.stringify(store.game)], `save-${store.game.name}.json`)
   window.open(URL.createObjectURL(file))
-  
+
 }
 </script>
 
 <!-- TODO: Redo the entire property mechanism -->
 <template>
   <section class="bg-zinc-200 h-max flex flex-col">
-    <form class="bg-zinc-300 m-2 border-slate-600 border-2 p-4">
-      <label>Game Name: </label>
+    <div class="m-2 p-4 text-center">
+      <label class="text-3xl"> Game Name: </label>
       <input
         v-model="store.game.name"
-        class="border-black border-2 border-solid rounded-lg px-2 my-4"
+        class="border-black border-2 border-solid rounded-lg p-2 bg-slate-200 my-4"
         type="text"
         placeholder="Fill in This Game"
       >
-    </form>
+    </div>
 
     <button
       class="bg-slate-700 text-white p-4 rounded-lg my-2 mx-1"

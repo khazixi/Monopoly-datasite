@@ -81,7 +81,7 @@ function handleDecrement(owned: Housable) {
           v-for="owned in player.owned"
           :key="owned.position"
         >
-          <td class="px-2">
+          <td class="px-2 text-center">
             {{ abbreviate(owned.name, false) }}
           </td>
           <td
@@ -89,7 +89,7 @@ function handleDecrement(owned: Housable) {
             :class="bgBySpot(owned.position)"
             class="px-2"
           />
-          <td class="px-2">
+          <td class="px-2 text-center">
             <div
               v-if="owned.houses !== undefined"
               class="border-black border rounded inline-flex gap-4"
@@ -111,7 +111,7 @@ function handleDecrement(owned: Housable) {
               </button>
             </div>
           </td>
-          <td class="px-2">
+          <td class="px-2 text-center">
             <button
               class="mx-1 bg-black text-white p-2 rounded"
               :class="bgBySpot(owned.position)"

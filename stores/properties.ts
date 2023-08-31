@@ -14,6 +14,9 @@ export const useData = defineStore("properties", () => {
 
   const ownables = computed<Housable[]>(() => {
     const a = spots.value.reduce<Housable[]>((acc, curr) => {
+      if (getType(curr.id) === 'Drawable') return acc
+      else if (getType(curr.id) === 'Error') return acc
+      else if (getType(curr.id) === 'Special') return acc
       acc.push({
         name: getName(curr),
         position: curr.id,
@@ -46,7 +49,7 @@ export const useData = defineStore("properties", () => {
       return
     }
 
-    spots.value = s.sort((a,b) => a.id - b.id)
+    spots.value = s.sort((a, b) => a.id - b.id)
   }
 
   // NOTE: Removing this line to see if to test if it fixes Vercel
