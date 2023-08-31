@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import useGame from '@/stores/game'
 import { useArrayFilter } from '@vueuse/core'
-import { GameRoute } from '@/server/util/cleaning';
+import type { GameRoute } from '@/server/util/cleaning';
 const prop = defineProps<{ games: GameRoute[] }>()
 const store = useGame()
 const disabled = ref<number[]>([])
@@ -19,8 +19,8 @@ const available = useArrayFilter(prop.games, v => !disabled.value.includes(v.id)
   <div @click="store.importGame(game)" v-for="game in available" :key="game.data.name"
     class="border-2 border-black w-1/2 flex flex-row">
     <NuxtLink to="/store" class="flex-grow">
-      <h1> {{ game.data.name }}</h1>
-      <h2>
+      <h1 class="p-2"> {{ game.data.name }}</h1>
+      <h2 class="p-2">
         Players: {{ game.data.players.length }}
       </h2>
     </NuxtLink>

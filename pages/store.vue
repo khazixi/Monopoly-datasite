@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import useGame from "@/stores/game";
-import { Housable } from "@/util/client";
+import type { Housable } from "@/server/util/cleaning";
 
 const store = useGame();
 const selectedProperty = ref<Housable>({ name: "", position: -1 });

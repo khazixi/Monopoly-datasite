@@ -1,6 +1,7 @@
-import { db } from "../db"
-import { game } from "../schema"
+import 'dotenv/config'
+import { db } from "../server/util/db"
+import { game } from "../server/util/schema"
 
-await db.delete(game)
+db.delete(game)
   .then(() => console.log('Successfully Deleted Games'))
-  .catch(() => console.log('Successfully Deleted Games'))
+  .catch(() => console.log('Failed to Delete Games'))

@@ -4,6 +4,7 @@ export const gameSchema = z.object({
   name: z.string(),
   players: z.object({
     money: z.number(),
+    position: z.number(),
     name: z.string(),
     owned: z.object({
       name: z.string(),
@@ -19,4 +20,6 @@ export const gameRoute = z.object({
 })
 
 export type Game = z.infer<typeof gameSchema>
+export type Person = Game['players'][number]
+export type Housable = Person['owned'][number]
 export type GameRoute = z.infer<typeof gameRoute>

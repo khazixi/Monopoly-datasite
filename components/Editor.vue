@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Housable, Person } from "@/util/client";
+import type { Housable, Person } from "@/server/util/cleaning";
 import { bgBySpot } from "@/util/helpers"
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
@@ -43,16 +43,33 @@ function handleDecrement(owned: Housable) {
     class="border-black border-solid border-2 p-2 m-2 rounded-lg flex flex-col"
     @submit.prevent
   >
-    <label> Name: </label>
-    <input
-      v-model="selected.name"
-      placeholder="fill in this name"
-      class="border-black border rounded p-1"
-      type="text"
-      @input="emits('updatePlayer', selected)"
-    >
-    <br>
+    <div class="">
+      <label> Name: </label>
+      <input
+        v-model="selected.name"
+        placeholder="fill in this name"
+        class="border-black border rounded p-1"
+        type="text"
+        @input="emits('updatePlayer', selected)"
+      >
 
+      <label> Money: </label>
+      <input
+        v-model="selected.money"
+        type="number"
+        class="border-black border rounded p-1"
+        @change="emits('updatePlayer', selected)"
+      >
+
+      <label> Position </label>
+      <input
+        v-model="selected.position"
+        type="number"
+        class="border-black border rounded p-1"
+        @change="emits('updatePlayer', selected)"
+      >
+    </div>
+    <br>
     <!-- <details class="border border-black rounded-lg m-2" v-if="player.owned.length"> -->
     <!-- TODO: Make this a component? -->
     <table
@@ -124,14 +141,5 @@ function handleDecrement(owned: Housable) {
       </tbody>
     </table>
     <!-- </details> -->
-
-    <label> Money: </label>
-    <input
-      v-model="selected.money"
-      type="number"
-      class="border-black border rounded p-1"
-      @change="emits('updatePlayer', selected)"
-    >
-    <br>
   </form>
 </template>

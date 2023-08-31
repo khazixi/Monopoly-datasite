@@ -1,5 +1,5 @@
 import { GameRoute } from '@/server/util/cleaning'
-import { Game, Housable, Person } from '@/util/client'
+import type { Game, Housable, Person } from '@/server/util/cleaning'
 
 export default defineStore('game', () => {
   const selected = ref(0)
@@ -7,8 +7,8 @@ export default defineStore('game', () => {
   const game = reactive<Game>({
     name: "New Game",
     players: [
-      { name: "Player 1", money: 1500, owned: [] },
-      { name: "Player 2", money: 1500, owned: [] },
+      { name: "Player 1", money: 1500, owned: [], position: 0 },
+      { name: "Player 2", money: 1500, owned: [], position: 0 },
     ]
   })
 
@@ -25,7 +25,7 @@ export default defineStore('game', () => {
   const owned = computed(() => game.players.flatMap(v => v.owned))
 
   function addNewPlayer() {
-    game.players.push({ name: `Player ${playerCount.value + 1}`, owned: [], money: 1500 })
+    game.players.push({ name: `Player ${playerCount.value + 1}`, owned: [], money: 1500, position: 0 })
   }
 
   function removePlayer(idx: number) {

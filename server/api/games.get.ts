@@ -1,6 +1,6 @@
-import { gameRoute } from "../util/cleaning";
-import { getGames } from "../util/db";
-import { auth } from "../util/lucia";
+import { gameRoute } from "@/server/util/cleaning";
+import { getGames } from "@/server/util/db";
+import { auth } from "@/server/util/lucia";
 
 export default defineEventHandler(async (event) => {
   const authRequest = auth.handleRequest(event)

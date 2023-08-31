@@ -22,5 +22,3 @@ export type Game = {
     }[]
   }[]
 }
-
-export type SavableGame = Game & { id: number }

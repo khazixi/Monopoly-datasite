@@ -1,12 +1,8 @@
 import postgres from 'postgres'
 import { drizzle } from 'drizzle-orm/postgres-js'
 import { card, game, property, special, drawable } from "./schema";
-import { Game, GameRoute } from "./cleaning";
+import type { Game, GameRoute } from "./cleaning";
 import { and, eq } from "drizzle-orm";
-
-if (!process.env.DATABASE_URL) {
-  import('dotenv').then(v => v.config())
-}
 
 export const queryClient = postgres(process.env.DATABASE_URL! ,{ ssl: 'require' })
 export const migrationClient = postgres(process.env.DATABASE_URL!, { max: 1, ssl: 'require' })
