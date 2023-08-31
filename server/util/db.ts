@@ -24,6 +24,7 @@ export async function saveGame(username: string, g: Game) {
   return db
     .insert(game)
     .values({ username: username, data: g })
+    .returning({id: game.id})
 }
 
 export async function updateGame(username: string, r: GameRoute) {

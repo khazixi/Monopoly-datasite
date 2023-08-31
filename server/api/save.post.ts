@@ -24,8 +24,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const dbResult = await saveGame(session.user.username, game)
-  .then(() => true)
-  .catch(() => false)
+    .catch(() => null)
 
   if (!dbResult) {
     throw createError({
@@ -34,5 +33,5 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  return dbResult
+  return dbResult[0]
 })
