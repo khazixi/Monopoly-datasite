@@ -6,7 +6,7 @@ import { and, eq } from "drizzle-orm";
 
 export const queryClient = postgres(process.env.DATABASE_URL! ,{ ssl: 'require' })
 export const migrationClient = postgres(process.env.DATABASE_URL!, { max: 1, ssl: 'require' })
-export const db = drizzle(queryClient, { logger: true })
+export const db = drizzle(queryClient, { logger: process.dev ?? false })
 
 
 // NOTE: I'll just put queries here
