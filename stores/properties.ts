@@ -1,6 +1,7 @@
 import { Housable } from "@/util/client";
 import { getName, getType } from "@/util/helpers";
 import { pgCard, pgDrawable, pgProperty, pgSpecial } from "~/server/util/schema";
+import { gameData } from "~/util/data";
 
 export const useData = defineStore("properties", () => {
   const spots = ref<Array<pgSpecial | pgDrawable | pgProperty>>([]);
@@ -39,10 +40,11 @@ export const useData = defineStore("properties", () => {
 
     // const c = await $fetch('/api/cards')
     // cards.value = c ?? []
+    const s = gameData
 
-    const s = await $fetch('/api/spots', {
-      method: 'GET',
-    })
+    // const s = await $fetch('/api/spots', {
+    //   method: 'GET',
+    // })
 
     if (s.length === 0) {
       spots.value = []
