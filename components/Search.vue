@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useData } from "@/stores/properties";
-import type { Housable } from "@/util/client";
+import type { Housable } from "~/utils/client";
 
 const props = defineProps<{ houses: Housable[] }>();
 const emits = defineEmits(["selected"]);

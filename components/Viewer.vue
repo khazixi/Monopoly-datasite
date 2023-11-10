@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Person } from "../util/client";
+import type { Person } from '~/utils/client';
+
 
 const props = defineProps<{ player: Person; index: number }>();
 const emits = defineEmits<{

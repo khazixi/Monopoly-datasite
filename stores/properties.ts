@@ -1,6 +1,4 @@
-import { Housable } from "@/util/client";
-import { getName, getType } from "@/util/helpers";
-import { cardData, CardData, GameData, gameData } from "~/util/data";
+import { Housable } from "~/utils/client";
 
 export const useData = defineStore("properties", () => {
   const spots = ref<GameData>(gameData.sort((a, b) => a.id - b.id));

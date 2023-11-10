@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import useGame from "@/stores/game";
-import type { Housable } from "@/server/util/cleaning";
+import type { Housable } from "~/utils/client";
 
 const store = useGame();
 const selectedProperty = ref<Housable>({ name: "", position: -1 });
@@ -28,7 +28,6 @@ function handleCloud() {
 function download() {
   const file = new File([JSON.stringify(store.game)], `save-${store.game.name}.json`)
   window.open(URL.createObjectURL(file))
-
 }
 </script>
 

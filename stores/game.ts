@@ -1,4 +1,4 @@
-import { GameRoute } from '@/server/util/cleaning'
+import type { GameRoute } from '@/server/util/cleaning'
 import type { Game, Housable, Person } from '@/server/util/cleaning'
 
 export default defineStore('game', () => {

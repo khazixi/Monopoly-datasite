@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Housable, Person } from "@/server/util/cleaning";
-import { bgBySpot } from "@/util/helpers"
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const props = defineProps<{ player: Person; index: number }>();
