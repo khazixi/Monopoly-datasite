@@ -1,4 +1,4 @@
-import { pgDrawable, pgProperty, pgSpecial } from "~/server/util/schema";
+import { DrawableData, GameData, PropertyData, SpecialData } from "./data";
 
 export const specialIndices = [0, 4, 10, 20, 30, 38] as const;
 export const utilityIndices = [12, 28] as const;
@@ -45,16 +45,16 @@ export function getType(spotIndex: number) {
   else return 'Error'
 }
 
-export function getName(spot: pgProperty | pgSpecial | pgDrawable) {
+export function getName(spot: GameData[0]) {
   switch (getType(spot.id)) {
     case "Special":
-      return (spot as pgSpecial).name;
+      return (spot as SpecialData).name;
     case "Utility":
     case "Railroad":
     case "Property":
-      return (spot as pgProperty).name;
+      return (spot as PropertyData).name;
     case "Drawable":
-      return (spot as pgDrawable).type
+      return (spot as DrawableData).type
     default: return 'name'
   }
 }

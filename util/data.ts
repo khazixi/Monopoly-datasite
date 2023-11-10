@@ -1,3 +1,5 @@
+import { type } from "os"
+
 export const gameData = [
   {
     "id": 1,
@@ -453,7 +455,7 @@ export const gameData = [
   }
 ]
 
-export const cards = [
+export const cardData = [
   {
     "id": 129,
     "type": "CHANCE",
@@ -615,3 +617,45 @@ export const cards = [
     "description": "You inherit $100"
   }
 ]
+
+export type GameData = typeof gameData
+
+export type CardData = typeof cardData
+
+export type ColorData = "BROWN" |
+  "LIGHTBLUE" |
+  "PINK" |
+  "ORANGE" |
+  "RED" |
+  "YELLOW" |
+  "GREEN" |
+  "BLUE" |
+  "NONE"
+
+export type CardTypeData = "CHANCE" | "COMMUNITYCHEST"
+
+export type PropertyData = {
+  id: number
+  name: string
+  price: number
+  rent: number[]
+  color: ColorData
+}
+
+export type HousesData = {
+  color: ColorData
+  price: number
+}
+
+export type SpecialData = {
+  id: number
+  name: string
+  description: string
+}
+
+export type DrawableData = {
+  id: number,
+  type: CardTypeData
+}
+
+

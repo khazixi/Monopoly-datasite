@@ -62,11 +62,6 @@ function download() {
       >
         Download
       </button>
-      <!-- <a -->
-      <!--   v-if="fileGen" -->
-      <!--   class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow text-center" -->
-      <!--   :href="fileUrl" -->
-      <!-- >Download</a> -->
       <button
         class="bg-slate-500 text-white p-4 rounded-lg my-2 mx-1 grow"
         @click="handleCloud"
